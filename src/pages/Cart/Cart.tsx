@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Trash2, Plus, Minus } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingCart } from 'lucide-react';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import { useCartStore } from '../../store/cartStore';
 import './Cart.css';
@@ -13,8 +13,10 @@ const Cart = () => {
         <h1 className="page-title">Shopping Cart</h1>
 
         {items.length === 0 ? (
-          <div className="empty-cart">
+          <div className="empty-cart card">
+            <ShoppingCart className="empty-cart-icon" size={64} />
             <h2>Your cart is currently empty.</h2>
+            <p className="empty-cart-text">Looks like you haven't added anything yet.</p>
             <Link to="/products" className="checkout-btn" style={{ maxWidth: '200px', margin: '2rem auto' }}>
               Browse Products
             </Link>
