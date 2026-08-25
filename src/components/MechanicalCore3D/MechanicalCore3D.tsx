@@ -1,11 +1,13 @@
-import { useRef } from 'react';
+import { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, MeshDistortMaterial, Environment, Edges } from '@react-three/drei';
+import { Float, Environment, Edges, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 const Core = () => {
   const outerRef = useRef<THREE.Mesh>(null);
   const innerRef = useRef<THREE.Mesh>(null);
+  
+  const logoTexture = useTexture('/SG.png');
 
   useFrame((state) => {
     if (outerRef.current) {
@@ -13,8 +15,8 @@ const Core = () => {
       outerRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
     }
     if (innerRef.current) {
-      innerRef.current.rotation.x = -state.clock.getElapsedTime() * 0.4;
-      innerRef.current.rotation.y = -state.clock.getElapsedTime() * 0.1;
+      // Rotate the logo slowly
+      innerRef.current.rotation.y = state.clock.getElapsedTime() * 0.5;
     }
   });
 
@@ -29,19 +31,14 @@ const Core = () => {
         </mesh>
       </Float>
 
-      {/* Inner glowing core */}
-      <Float speed={3} rotationIntensity={1} floatIntensity={0.5}>
+      {/* Inner glowing core replaced with Logo */}
+      <Float speed={3} rotationIntensity={0} floatIntensity={0.5}>
         <mesh ref={innerRef}>
-          <sphereGeometry args={[1, 64, 64]} />
-          <MeshDistortMaterial
-            color="#D2232A"
-            envMapIntensity={1}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            metalness={0.8}
-            roughness={0.2}
-            distort={0.4}
-            speed={2}
+          <planeGeometry args={[2, 2]} />
+          <meshBasicMaterial
+            map={logoTexture}
+            transparent={true}
+            side={THREE.DoubleSide}
           />
         </mesh>
       </Float>
@@ -57,7 +54,9 @@ const MechanicalCore3D = () => {
         <pointLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
         <pointLight position={[-10, -10, -10]} intensity={2} color="#D2232A" />
         
-        <Core />
+        <Suspense fallback={null}>
+          <Core />
+        </Suspense>
         
         <Environment preset="studio" />
       </Canvas>
