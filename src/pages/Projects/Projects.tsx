@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import PageTransition from '../../components/PageTransition/PageTransition';
+import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
 import './Projects.css';
 
 // Expanded dummy data for premium layout
@@ -78,15 +79,15 @@ const Projects = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="p-metric">
-              <span className="p-metric-val">150+</span>
+              <AnimatedCounter to={150} suffix="+" className="p-metric-val" />
               <span className="p-metric-label">Projects Delivered</span>
             </div>
             <div className="p-metric">
-              <span className="p-metric-val">24</span>
+              <AnimatedCounter to={24} className="p-metric-val" />
               <span className="p-metric-label">Countries Served</span>
             </div>
             <div className="p-metric">
-              <span className="p-metric-val">100%</span>
+              <AnimatedCounter to={100} suffix="%" className="p-metric-val" />
               <span className="p-metric-label">Client Retention</span>
             </div>
           </motion.div>

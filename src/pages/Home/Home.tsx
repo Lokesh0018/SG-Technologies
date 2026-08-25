@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Cpu, Factory, ShieldCheck, ArrowRight } from 'lucide-react';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import Hero3DScene from '../../components/Hero3DScene/Hero3DScene';
+import AnimatedCounter from '../../components/AnimatedCounter/AnimatedCounter';
 import './Home.css';
 
 const fadeInVariant = {
@@ -81,15 +82,15 @@ const Home = () => {
           viewport={{ once: true }}
         >
           <motion.div variants={fadeInVariant} className="metric">
-            <div className="metric-number">15+</div>
+            <AnimatedCounter to={15} suffix="+" className="metric-number" />
             <div className="metric-label">Years Experience</div>
           </motion.div>
           <motion.div variants={fadeInVariant} className="metric">
-            <div className="metric-number">50+</div>
+            <AnimatedCounter to={50} suffix="+" className="metric-number" />
             <div className="metric-label">Global Clients</div>
           </motion.div>
           <motion.div variants={fadeInVariant} className="metric">
-            <div className="metric-number">100%</div>
+            <AnimatedCounter to={100} suffix="%" className="metric-number" />
             <div className="metric-label">Quality Assured</div>
           </motion.div>
         </motion.div>
