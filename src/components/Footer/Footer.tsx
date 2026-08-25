@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-brand">
           <Link to="/">
-            <img src="/SG.jpeg" alt="SG Technologies" className="footer-logo" />
+            <img src="/SG.png" alt="SG Technologies" className="footer-logo" />
           </Link>
           <p className="footer-description">
             Engineering Technology. Building the Future. We deliver innovative technology, engineering, manufacturing, and product solutions built for real-world applications.

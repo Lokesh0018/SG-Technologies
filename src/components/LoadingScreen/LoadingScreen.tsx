@@ -29,11 +29,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
         >
           <div className="loading-logo-container">
             <div className="loading-spinner"></div>
-            <img src="/SG.jpeg" alt="SG Technologies" className="loading-logo" />
+            <img src="/SG.png" alt="SG Technologies" className="loading-logo" />
           </div>
-          
+
           <div className="loading-text-container">
-            <motion.h1 
+            <motion.h1
               className="loading-title text-gradient"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -41,7 +41,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             >
               SG TECHNOLOGIES
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="loading-subtitle"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

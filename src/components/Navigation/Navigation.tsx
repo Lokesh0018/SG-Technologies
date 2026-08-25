@@ -25,18 +25,18 @@ const Navigation = () => {
     <nav className={`navigation ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-brand">
         <Link to="/">
-          <img src="/SG.jpeg" alt="SG Technologies" className="nav-logo" />
+          <img src="/SG.png" alt="SG Technologies" className="nav-logo" />
         </Link>
       </div>
 
       <div className="nav-links">
-        <NavLink to="/" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Home</NavLink>
-        <NavLink to="/about" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>About</NavLink>
-        <NavLink to="/projects" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Projects</NavLink>
-        <NavLink to="/products" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Products</NavLink>
-        <NavLink to="/gallery" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Gallery</NavLink>
-        <NavLink to="/manufacturing" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Manufacturing</NavLink>
-        <NavLink to="/contact" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Contact</NavLink>
+        <NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Home</NavLink>
+        <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>About</NavLink>
+        <NavLink to="/projects" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Projects</NavLink>
+        <NavLink to="/products" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Products</NavLink>
+        <NavLink to="/gallery" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Gallery</NavLink>
+        <NavLink to="/manufacturing" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Manufacturing</NavLink>
+        <NavLink to="/contact" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>Contact</NavLink>
       </div>
 
       <div className="nav-actions">

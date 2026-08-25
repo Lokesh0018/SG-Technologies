@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageTransition from '../../components/PageTransition/PageTransition';
-import { WalkieTalkie3D } from '../../components/WalkieTalkie3D/WalkieTalkie3D';
+import Product3DViewer from '../../components/Product3DViewer/Product3DViewer';
 import { useCartStore } from '../../store/cartStore';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
   const { slug } = useParams();
   const addItem = useCartStore(state => state.addItem);
-  
-  const [isExploded, setIsExploded] = useState(false);
-  const [autoRotate, setAutoRotate] = useState(true);
 
   // In a real app, fetch product by slug
   const product = {
@@ -19,6 +16,7 @@ const ProductDetails = () => {
     price: 14999,
     category: 'Communication Devices',
     description: 'The ultimate industrial communication device. Engineered with precision mechanical components, long-lasting battery, and extreme environmental resistance. Designed for real-world heavy duty applications.',
+    modelPath: '/walkie_talkie__3d_communication_device.glb',
     specs: [
       { label: 'Range', value: '15 km' },
       { label: 'Battery Life', value: '48 Hours' },
@@ -42,34 +40,13 @@ const ProductDetails = () => {
         
         {/* 3D Viewer Area */}
         <div className="product-3d-viewer">
-          {slug === 'walkie-talkie-pro' || !slug ? (
-            <WalkieTalkie3D isExploded={isExploded} autoRotate={autoRotate} />
+          {product.modelPath ? (
+            <Product3DViewer modelPath={product.modelPath} />
           ) : (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
               <p>3D Model not available for this product</p>
             </div>
           )}
-
-          <div className="viewer-controls">
-            <button 
-              className={`viewer-btn ${!isExploded ? 'active' : ''}`}
-              onClick={() => setIsExploded(false)}
-            >
-              Assemble
-            </button>
-            <button 
-              className={`viewer-btn ${isExploded ? 'active' : ''}`}
-              onClick={() => setIsExploded(true)}
-            >
-              Explode View
-            </button>
-            <button 
-              className={`viewer-btn ${autoRotate ? 'active' : ''}`}
-              onClick={() => setAutoRotate(!autoRotate)}
-            >
-              Auto Rotate
-            </button>
-          </div>
         </div>
 
         {/* Product Information */}
@@ -92,9 +69,13 @@ const ProductDetails = () => {
             </ul>
           </div>
 
-          <button className="add-to-cart-large" onClick={handleAddToCart}>
+          <button className="add-to-cart-large" onClick={handleAddToCart} style={{ marginBottom: '1.5rem' }}>
             Add to Cart
           </button>
+          
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-light)', paddingTop: '1rem', marginTop: 'auto' }}>
+            <strong>Model Attribution:</strong> "Walkie Talkie – 3D Communication Device" by GAMICO, licensed under Creative Commons Attribution 4.0 (CC-BY-4.0).
+          </div>
         </div>
 
       </div>
