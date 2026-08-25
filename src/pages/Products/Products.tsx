@@ -27,7 +27,7 @@ const productsData = [
     price: 18999,
     category: 'Communication Devices',
     description: 'Next-generation Push-to-Talk over Cellular (PoC) LTE radio for global coverage.',
-    image: '/poc/lte radio/poc-lte-radio.png'
+    image: '/poc-lte radio/poc-lte-radio.png'
   }
 ];
 

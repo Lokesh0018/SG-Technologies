@@ -47,7 +47,7 @@ const ProductDetails = () => {
       price: 18999,
       category: 'Communication Devices',
       description: 'Next-generation Push-to-Talk over Cellular (PoC) radio. Offers global coverage using 4G/LTE networks, advanced GPS tracking, and seamless fleet communication without the limitations of traditional RF range.',
-      modelPath: '/poc/lte radio/handheld_portable_radio__walkie_talkie.glb',
+      modelPath: '/poc-lte radio/handheld_portable_radio__walkie_talkie.glb',
       specs: [
         { label: 'Network', value: '4G LTE / Wi-Fi' },
         { label: 'Coverage', value: 'Global (Cellular)' },
