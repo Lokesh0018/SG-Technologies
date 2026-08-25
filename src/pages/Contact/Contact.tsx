@@ -6,13 +6,13 @@ import './Contact.css';
 
 // Using environment variables or standard config for location
 const CONFIG = {
-  LATITUDE: '12.9716',
-  LONGITUDE: '77.5946',
+  LATITUDE: '17.8333',
+  LONGITUDE: '83.2000',
   COMPANY_NAME: 'SG Technologies',
   ADDRESS: 'Innovation Park, Sector 4',
-  CITY: 'Tech City',
-  STATE: 'Karnataka',
-  PINCODE: '560100',
+  CITY: 'Visakhapatnam',
+  STATE: 'Andhra Pradesh',
+  PINCODE: '530001',
   PHONE: '+1 (234) 567-890',
   EMAIL: 'info@sgtechnologies.com',
   HOURS: 'Mon - Fri: 9:00 AM - 6:00 PM'

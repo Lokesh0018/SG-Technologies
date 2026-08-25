@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Stars, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
@@ -11,19 +11,25 @@ interface Globe3DProps {
 
 // Convert Latitude / Longitude to a Vector3 on a sphere of given radius
 const latLongToVector3 = (lat: number, lon: number, radius: number): THREE.Vector3 => {
+  // Three.js Spherical coordinates:
+  // phi is the polar angle from the Y (up) axis (0 to PI).
   const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
+  
+  // theta is the equator angle around the Y axis, starting from +Z.
+  // The texture maps Greenwich (lon=0) to the center (-Z). 
+  // Therefore, we offset longitude by 180 degrees to map it to -Z.
+  // We use negative longitude because Three.js theta goes counter-clockwise (+X), 
+  // while East on the map goes clockwise (-X).
+  const theta = (-lon + 180) * (Math.PI / 180);
 
-  const x = -(radius * Math.sin(phi) * Math.cos(theta));
-  const z = (radius * Math.sin(phi) * Math.sin(theta));
-  const y = (radius * Math.cos(phi));
-
-  return new THREE.Vector3(x, y, z);
+  const spherical = new THREE.Spherical(radius, phi, theta);
+  const vec = new THREE.Vector3().setFromSpherical(spherical);
+  return vec;
 };
 
-// Target SG Technologies Coordinates (India)
-const TARGET_LAT = 12.9716;
-const TARGET_LON = 77.5946;
+// Target SG Technologies Coordinates (Visakhapatnam, India)
+const TARGET_LAT = 17.8333;
+const TARGET_LON = 83.2000;
 const EARTH_RADIUS = 1.5;
 
 const RealisticEarth = () => {
@@ -88,82 +94,81 @@ const RealisticEarth = () => {
 
 const EarthRig = ({ zoomState, onZoomComplete }: Globe3DProps) => {
   const rigRef = useRef<THREE.Group>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   
-  // Calculate target point exactly
+  // Use the default R3F canvas camera 
+  const { camera } = useThree();
+  
+  // Calculate target point exactly (local to the rig)
   const targetPoint = latLongToVector3(TARGET_LAT, TARGET_LON, EARTH_RADIUS);
 
   useEffect(() => {
-    if (zoomState === 'zooming' && cameraRef.current && rigRef.current) {
+    // Set initial camera position if we are idle
+    if (zoomState === 'idle') {
+      camera.position.set(0, 0, 8);
+    }
+
+    if (zoomState === 'zooming' && rigRef.current) {
       
-      // Calculate a point slightly above the exact coordinate for the final zoom
-      const zoomedPosition = targetPoint.clone().normalize().multiplyScalar(EARTH_RADIUS + 0.15);
+      // Calculate the target's current world position based on current rig rotation
+      const currentRigY = rigRef.current.rotation.y;
+      const worldTarget = targetPoint.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), currentRigY);
+      
+      // Calculate a point slightly above the exact world coordinate for the final zoom
+      const worldZoomed = worldTarget.clone().normalize().multiplyScalar(EARTH_RADIUS + 0.15);
       
       const tl = gsap.timeline({
         onComplete: onZoomComplete
       });
 
-      // Phase 1: From Space to Mid-Orbit (focusing above target location)
-      tl.to(cameraRef.current.position, {
-        x: targetPoint.x * 2.5,
-        y: targetPoint.y * 2.5,
-        z: targetPoint.z * 2.5,
+      // Phase 1: From Space to Mid-Orbit (fly camera to current world orientation)
+      tl.to(camera.position, {
+        x: worldTarget.x * 2.5,
+        y: worldTarget.y * 2.5,
+        z: worldTarget.z * 2.5,
         duration: 2.5,
         ease: "power2.inOut"
       }, 0);
 
-      // Ensure the rig is aligned during the zoom
-      tl.to(rigRef.current.rotation, {
-        y: 0, 
-        duration: 2.5,
-        ease: "power2.inOut"
-      }, 0);
+      // We completely remove the rigorous rig rotation animation to prevent "crazy spinning" jumps
+      // The rig will simply pause its idle spin, and the camera flies to wherever India is right now.
 
       // Phase 2: Close Zoom directly into the exact surface coordinates
-      tl.to(cameraRef.current.position, {
-        x: zoomedPosition.x,
-        y: zoomedPosition.y,
-        z: zoomedPosition.z,
+      tl.to(camera.position, {
+        x: worldZoomed.x,
+        y: worldZoomed.y,
+        z: worldZoomed.z,
         duration: 2.5,
         ease: "power3.in"
       });
       
     }
-  }, [zoomState, onZoomComplete, targetPoint]);
+  }, [zoomState, onZoomComplete, targetPoint, camera]);
 
   useFrame(() => {
     if (zoomState === 'idle' && rigRef.current) {
       rigRef.current.rotation.y += 0.001; // Slow rotation when idle
     }
-    if (cameraRef.current) {
-      // Camera always looks at center of Earth
-      cameraRef.current.lookAt(0, 0, 0);
-    }
+    
+    // Camera always looks at center of Earth
+    camera.lookAt(0, 0, 0);
   });
 
   return (
-    <>
-      <perspectiveCamera 
-        ref={cameraRef as any}
-        args={[45, window.innerWidth / window.innerHeight, 0.1, 1000]}
-        position={[0, 0, 8]}
-      />
-      <group ref={rigRef}>
-        <RealisticEarth />
-        
-        {/* Exact Location Marker */}
-        <mesh position={targetPoint.toArray()}>
-          <sphereGeometry args={[0.015, 16, 16]} />
-          <meshBasicMaterial color="#D2232A" />
-        </mesh>
-        
-        {/* Location Marker Glow */}
-        <mesh position={targetPoint.toArray()} rotation={[Math.PI/2, 0, 0]}>
-          <ringGeometry args={[0.02, 0.04, 32]} />
-          <meshBasicMaterial color="#D2232A" transparent opacity={0.6} side={THREE.DoubleSide} />
-        </mesh>
-      </group>
-    </>
+    <group ref={rigRef}>
+      <RealisticEarth />
+      
+      {/* Exact Location Marker */}
+      <mesh position={targetPoint.toArray()}>
+        <sphereGeometry args={[0.015, 16, 16]} />
+        <meshBasicMaterial color="#D2232A" />
+      </mesh>
+      
+      {/* Location Marker Glow */}
+      <mesh position={targetPoint.toArray()} rotation={[Math.PI/2, 0, 0]}>
+        <ringGeometry args={[0.02, 0.04, 32]} />
+        <meshBasicMaterial color="#D2232A" transparent opacity={0.6} side={THREE.DoubleSide} />
+      </mesh>
+    </group>
   );
 };
 
