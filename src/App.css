@@ -9,3 +9,9 @@
   position: relative;
   z-index: 1;
 }
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: 70px; /* Space for bottom nav */
+  }
+}

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingCart } from 'lucide-react';
 import PageTransition from '../../components/PageTransition/PageTransition';
+import SwipeableItem from '../../components/SwipeableItem/SwipeableItem';
 import { useCartStore } from '../../store/cartStore';
 import './Cart.css';
 
@@ -25,35 +26,38 @@ const Cart = () => {
           <>
             <div className="cart-items">
               {items.map((item) => (
-                <div key={item.id} className="cart-item glass-panel">
-                  <div className="cart-item-info">
-                    <h3>{item.name}</h3>
-                    <div className="cart-item-price">₹{item.price.toLocaleString()}</div>
+                <SwipeableItem key={item.id} onDelete={() => removeItem(item.id)}>
+                  <div className="cart-item glass-panel" style={{ border: 'none' }}>
+                    <div className="cart-item-info">
+                      <h3>{item.name}</h3>
+                      <div className="cart-item-price">₹{item.price.toLocaleString()}</div>
+                    </div>
+                    
+                    <div className="cart-item-controls">
+                      <button 
+                        className="qty-btn"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      >
+                        <Minus size={16} />
+                      </button>
+                      <span className="item-qty">{item.quantity}</span>
+                      <button 
+                        className="qty-btn"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      >
+                        <Plus size={16} />
+                      </button>
+                      {/* Hide standard remove button on mobile, but keep it for desktop */}
+                      <button 
+                        className="remove-btn desktop-only"
+                        onClick={() => removeItem(item.id)}
+                        style={{ marginLeft: '1rem' }}
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
                   </div>
-                  
-                  <div className="cart-item-controls">
-                    <button 
-                      className="qty-btn"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    >
-                      <Minus size={16} />
-                    </button>
-                    <span className="item-qty">{item.quantity}</span>
-                    <button 
-                      className="qty-btn"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    >
-                      <Plus size={16} />
-                    </button>
-                    <button 
-                      className="remove-btn"
-                      onClick={() => removeItem(item.id)}
-                      style={{ marginLeft: '1rem' }}
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                  </div>
-                </div>
+                </SwipeableItem>
               ))}
             </div>
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation/Navigation';
+import BottomNavigation from './components/BottomNavigation/BottomNavigation';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
@@ -51,6 +52,7 @@ function App() {
         <main className="main-content">
           <AnimatedRoutes />
         </main>
+        <BottomNavigation />
         <Footer />
       </div>
     </Router>

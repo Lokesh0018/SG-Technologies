@@ -137,3 +137,9 @@
 .checkout-btn:hover {
   background-color: #b01b22;
 }
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+}

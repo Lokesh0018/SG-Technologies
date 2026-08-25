@@ -1,0 +1,36 @@
+.ptr-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+}
+
+.ptr-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+}
+
+.ptr-icon-wrapper {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.ptr-content {
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg-dark);
+  min-height: 100vh;
+}
