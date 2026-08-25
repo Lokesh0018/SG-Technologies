@@ -60,17 +60,7 @@ const Products = () => {
         <div className="products-container">
           <h1 className="page-heading">Our Products</h1>
           
-          <div style={{ marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--text-secondary)' }}>Featured Categories</h2>
-            <div className="scroll-snap-container">
-              {['Communication', 'Security', 'Accessories', 'Software', 'Industrial'].map((category, index) => (
-                <div key={index} className="scroll-snap-item card" style={{ padding: '1rem 2rem', minWidth: '150px', textAlign: 'center' }}>
-                  {category}
-                </div>
-              ))}
-            </div>
-          </div>
-          
+
           <div className="products-grid">
           {productsData.map((product) => (
             <div key={product.id} className="product-card">
