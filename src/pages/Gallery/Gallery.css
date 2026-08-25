@@ -1,0 +1,142 @@
+.gallery-page {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.gallery-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+}
+
+.masonry-grid {
+  column-count: 3;
+  column-gap: 1.5rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.gallery-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-red);
+}
+
+.gallery-item-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.gallery-item:hover .gallery-item-image {
+  opacity: 1;
+}
+
+.gallery-item-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--transition-fast);
+}
+
+.gallery-item:hover .gallery-item-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gallery-item-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.gallery-item-category {
+  font-size: 0.85rem;
+  color: var(--sg-red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Lightbox styles */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 5, 6, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+.lightbox-image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 1px solid var(--border-light);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.lightbox-close:hover {
+  color: var(--sg-red);
+}
+
+.lightbox-info {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-container {
+    padding: 2rem;
+  }
+  .masonry-grid {
+    column-count: 1;
+  }
+}

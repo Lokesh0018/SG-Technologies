@@ -1,0 +1,111 @@
+.products-page {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.products-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.product-card {
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--sg-red);
+}
+
+.product-image-container {
+  height: 250px;
+  background-color: var(--bg-darker);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.product-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.product-category {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--sg-red);
+  margin-bottom: 1.5rem;
+}
+
+.product-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.btn-add-cart, .btn-view-details {
+  flex: 1;
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-add-cart {
+  background-color: var(--sg-red);
+  color: white;
+}
+
+.btn-add-cart:hover {
+  background-color: #b01b22;
+}
+
+.btn-view-details {
+  background-color: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+.btn-view-details:hover {
+  border-color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .products-container {
+    padding: 2rem;
+  }
+}
