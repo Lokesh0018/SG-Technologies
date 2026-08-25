@@ -18,14 +18,16 @@ const productsData = [
     name: 'Industrial CC Camera',
     price: 8499,
     category: 'Security Systems',
-    description: 'High-definition industrial security camera with night vision and robust casing.'
+    description: 'High-definition industrial security camera with night vision and robust casing.',
+    image: '/camera/cc camera.png'
   },
   {
-    id: 'power-cell',
-    name: 'Heavy Duty Power Cell',
-    price: 8999,
-    category: 'Industrial Products',
-    description: 'Long-lasting industrial power source.'
+    id: 'poc-lte-radio',
+    name: 'PoC LTE Radio',
+    price: 18999,
+    category: 'Communication Devices',
+    description: 'Next-generation Push-to-Talk over Cellular (PoC) LTE radio for global coverage.',
+    image: '/poc/lte radio/poc-lte-radio.png'
   }
 ];
 

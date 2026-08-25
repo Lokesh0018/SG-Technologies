@@ -12,6 +12,10 @@
   height: 100vh;
   z-index: 1;
   pointer-events: none; /* Let clicks pass through to text */
+  background-image: url('/manufacturing.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .manufacturing-content-overlay {

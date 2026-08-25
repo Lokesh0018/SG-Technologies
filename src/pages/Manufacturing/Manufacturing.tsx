@@ -64,9 +64,9 @@ const Manufacturing = () => {
   return (
     <PageTransition className="manufacturing-page">
       
-      {/* Background 3D Canvas (Pinned visually via CSS fixed position) */}
+      {/* Background Image (Replaces 3D Canvas) */}
       <div className="manufacturing-canvas-container">
-        <Factory3D />
+        {/* <Factory3D /> */}
       </div>
 
       {/* Foreground Scrollable Content */}

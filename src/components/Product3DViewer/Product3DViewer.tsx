@@ -13,6 +13,7 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
   const [isExploded, setIsExploded] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<any>(null);
@@ -30,9 +31,9 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
   };
 
   const handleResetCamera = () => {
-    if (controlsRef.current) {
-      controlsRef.current.reset();
-    }
+    // Instead of orbitControls.reset() which conflicts with <Bounds>,
+    // we fully remount the canvas to let <Bounds> recalculate the perfect fit.
+    setResetKey(prev => prev + 1);
   };
 
   // Check if we are on a mobile device to reduce effects
@@ -50,7 +51,7 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
         </button>
       </div>
 
-      <Canvas shadows={!isMobile} camera={{ position: [5, 2, 5], fov: 45 }}>
+      <Canvas key={resetKey} shadows={!isMobile} camera={{ position: [5, 2, 5], fov: 45 }}>
         <color attach="background" args={['#0a0a0c']} />
         <ambientLight intensity={1} />
         <directionalLight position={[10, 10, 10]} intensity={1.5} castShadow={!isMobile} shadow-mapSize={1024} />
@@ -65,7 +66,6 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
             <WalkieTalkieModel modelPath={modelPath} isExploded={isExploded} />
           </Bounds>
           <Environment preset="city" />
-          {!isMobile && <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={10} blur={2} far={4} />}
           {!isMobile && <BakeShadows />}
         </Suspense>
 
@@ -73,11 +73,10 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
           ref={controlsRef}
           makeDefault
           enablePan={false}
-          minDistance={2}
-          maxDistance={15}
+          minDistance={0.1}
+          maxDistance={30}
           autoRotate={autoRotate && !isExploded}
           autoRotateSpeed={1.5}
-          maxPolarAngle={Math.PI / 2 + 0.1} // Prevent looking completely from underneath
         />
       </Canvas>
 

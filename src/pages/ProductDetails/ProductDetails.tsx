@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import Product3DViewer from '../../components/Product3DViewer/Product3DViewer';
 import { useCartStore } from '../../store/cartStore';
@@ -40,13 +41,19 @@ const ProductDetails = () => {
         { label: 'Connectivity', value: 'PoE / Wi-Fi 6' }
       ]
     },
-    'power-cell': {
-      id: 'power-cell',
-      name: 'Heavy Duty Power Cell',
-      price: 8999,
-      category: 'Industrial Products',
-      description: 'Long-lasting industrial power source.',
-      specs: []
+    'poc-lte-radio': {
+      id: 'poc-lte-radio',
+      name: 'PoC LTE Radio',
+      price: 18999,
+      category: 'Communication Devices',
+      description: 'Next-generation Push-to-Talk over Cellular (PoC) radio. Offers global coverage using 4G/LTE networks, advanced GPS tracking, and seamless fleet communication without the limitations of traditional RF range.',
+      modelPath: '/poc/lte radio/handheld_portable_radio__walkie_talkie.glb',
+      specs: [
+        { label: 'Network', value: '4G LTE / Wi-Fi' },
+        { label: 'Coverage', value: 'Global (Cellular)' },
+        { label: 'Location Tracking', value: 'GPS / GLONASS' },
+        { label: 'Battery Life', value: '72 Hours' }
+      ]
     }
   };
 
@@ -78,6 +85,9 @@ const ProductDetails = () => {
 
         {/* Product Information */}
         <div className="product-info-panel">
+          <Link to="/products" className="btn-back-to-products">
+            <FaArrowLeft /> Back to Products
+          </Link>
           <h1 className="pd-title">{product.name}</h1>
           <div className="pd-category">{product.category}</div>
           <div className="pd-price">₹{product.price.toLocaleString()}</div>

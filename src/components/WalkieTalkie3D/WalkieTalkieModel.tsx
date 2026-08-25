@@ -8,8 +8,6 @@ interface WalkieTalkieModelProps {
 }
 
 export function WalkieTalkieModel({ modelPath, isExploded }: WalkieTalkieModelProps) {
-  // We use useGLTF to load the model. 
-  // It handles caching and loading automatically.
   const { scene } = useGLTF(modelPath);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -22,9 +20,8 @@ export function WalkieTalkieModel({ modelPath, isExploded }: WalkieTalkieModelPr
   return (
     <group ref={groupRef} dispose={null}>
       {/* 
-        Using Center ensures that any dynamic model loaded (Walkie-Talkie, Camera, etc)
-        will automatically be centered at the origin, regardless of its original pivot point.
-        The Bounds component in the parent will then handle scaling the camera to fit.
+        Using Center without 'bottom' guarantees the mesh's center of mass 
+        is exactly at [0,0,0], preventing awkward top-heavy framing.
       */}
       <Center>
         <primitive object={scene} />

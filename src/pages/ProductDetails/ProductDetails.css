@@ -1,12 +1,14 @@
 .product-details-page {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   padding-top: 80px;
+  overflow: hidden;
 }
 
 .product-details-container {
   display: flex;
   height: calc(100vh - 80px);
+  overflow: hidden;
 }
 
 .product-3d-viewer {
@@ -58,6 +60,22 @@
   background-color: var(--bg-dark);
   display: flex;
   flex-direction: column;
+}
+
+.btn-back-to-products {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  transition: color var(--transition-fast);
+}
+
+.btn-back-to-products:hover {
+  color: var(--sg-red);
 }
 
 .pd-title {
