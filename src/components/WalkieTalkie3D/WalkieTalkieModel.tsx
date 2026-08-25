@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface WalkieTalkieModelProps {
@@ -13,13 +13,7 @@ export function WalkieTalkieModel({ modelPath, isExploded }: WalkieTalkieModelPr
   const { scene } = useGLTF(modelPath);
   const groupRef = useRef<THREE.Group>(null);
 
-  // We are keeping this modular. Since this specific GLB does not support exploded views,
-  // we just render the complete scene.
-  // When a new model is provided, this component can be updated to animate child nodes.
-  
   useEffect(() => {
-    // If we had a component-separated model, we would apply GSAP animations here
-    // based on the isExploded prop.
     if (isExploded) {
       console.log("Exploded view requested, but current model does not support it.");
     }
@@ -27,8 +21,14 @@ export function WalkieTalkieModel({ modelPath, isExploded }: WalkieTalkieModelPr
 
   return (
     <group ref={groupRef} dispose={null}>
-      {/* We apply a scale and slight position adjustment if needed to fit the camera well */}
-      <primitive object={scene} scale={2} position={[0, -2, 0]} />
+      {/* 
+        Using Center ensures that any dynamic model loaded (Walkie-Talkie, Camera, etc)
+        will automatically be centered at the origin, regardless of its original pivot point.
+        The Bounds component in the parent will then handle scaling the camera to fit.
+      */}
+      <Center>
+        <primitive object={scene} />
+      </Center>
     </group>
   );
 }

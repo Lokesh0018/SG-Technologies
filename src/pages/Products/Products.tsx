@@ -10,14 +10,15 @@ const productsData = [
     name: 'Walkie-Talkie Pro X',
     price: 14999,
     category: 'Communication Devices',
-    description: 'Advanced industrial communication device with extreme durability.'
+    description: 'Advanced industrial communication device with extreme durability.',
+    image: '/wlakie talkie/walkie talkie.png'
   },
   {
-    id: 'sensor-module-v2',
-    name: 'Industrial Sensor V2',
-    price: 5499,
-    category: 'Electronics',
-    description: 'High-precision environmental and motion tracking.'
+    id: 'cc-camera',
+    name: 'Industrial CC Camera',
+    price: 8499,
+    category: 'Security Systems',
+    description: 'High-definition industrial security camera with night vision and robust casing.'
   },
   {
     id: 'power-cell',
@@ -50,7 +51,11 @@ const Products = () => {
           {productsData.map((product) => (
             <div key={product.id} className="product-card">
               <div className="product-image-container">
-                 <span className="sg-logo-icon" style={{ opacity: 0.2 }}>SG</span>
+                {product.image ? (
+                  <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '1.5rem' }} />
+                ) : (
+                  <span className="sg-logo-icon" style={{ opacity: 0.2 }}>SG</span>
+                )}
               </div>
               <div className="product-info">
                 <h3 className="product-title">{product.name}</h3>

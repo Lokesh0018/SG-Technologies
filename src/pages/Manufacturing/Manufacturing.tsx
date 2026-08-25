@@ -1,57 +1,101 @@
+import { useRef, useLayoutEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../../components/PageTransition/PageTransition';
 import Factory3D from '../../components/Factory3D/Factory3D';
 import './Manufacturing.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const stages = [
   {
     id: '01',
-    title: 'Design',
-    description: 'Advanced CAD and engineering design processes to ensure product viability and mechanical integrity before prototyping begins.'
+    title: 'DESIGN',
+    description: 'Engineering ideas become precise product designs through research, planning and technical development.'
   },
   {
     id: '02',
-    title: 'Prototyping',
-    description: 'Rapid prototyping and validation using industrial 3D printing and CNC machining to test form, fit, and function.'
+    title: 'PROTOTYPE',
+    description: 'Concepts are transformed into functional prototypes for validation and refinement.'
   },
   {
     id: '03',
-    title: 'Manufacturing',
-    description: 'Precision production utilizing automated robotic systems and strict quality tolerances for large-scale manufacturing.'
+    title: 'MANUFACTURING',
+    description: 'Advanced manufacturing processes transform engineered designs into precision components and products.'
   },
   {
     id: '04',
-    title: 'Assembly',
-    description: 'Component integration and final assembly performed in clean-room environments for sensitive electronic equipment.'
+    title: 'ASSEMBLY',
+    description: 'Individual components are carefully integrated into complete products.'
+  },
+  {
+    id: '05',
+    title: 'TESTING',
+    description: 'Every product undergoes testing and quality verification before delivery.'
+  },
+  {
+    id: '06',
+    title: 'DELIVERY',
+    description: 'Completed products are prepared for deployment and delivery.'
   }
 ];
 
 const Manufacturing = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // We track the scroll progress and pass it down to the 3D canvas
+  useLayoutEffect(() => {
+    // Refresh ScrollTrigger to ensure correct heights if DOM changes
+    ScrollTrigger.refresh();
+
+    const st = ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        // Dispatch custom event to 3D canvas to update camera
+        window.dispatchEvent(new CustomEvent('manufacturing-scroll', { detail: self.progress }));
+      }
+    });
+    
+    return () => st.kill();
+  }, []);
+
   return (
     <PageTransition className="manufacturing-page">
-      <div className="manufacturing-scroll-container">
-        
-        <div className="manufacturing-header">
-          <h1 className="m-title">Our Production Journey</h1>
-          <p className="m-subtitle">From concept to deployment, discover how we build the future of technology.</p>
-        </div>
+      
+      {/* Background 3D Canvas (Pinned visually via CSS fixed position) */}
+      <div className="manufacturing-canvas-container">
+        <Factory3D />
+      </div>
 
-        <div className="factory-stages">
-          {stages.map((stage, index) => (
-            <div key={stage.id} className="stage-card">
-              <span className="stage-number">{stage.id}</span>
-              <div className="stage-info">
-                <h2>{stage.title}</h2>
-                <p>{stage.description}</p>
-              </div>
-              <div className="stage-3d-placeholder">
-                {/* We use the same abstract machine for all stages for this demo */}
-                <Factory3D />
+      {/* Foreground Scrollable Content */}
+      <div ref={containerRef} className="manufacturing-content-overlay">
+        
+        {stages.map((stage, index) => (
+          <div key={stage.id} className="m-stage-section" id={`stage-${index}`}>
+            <div className="m-stage-card-wrapper">
+              <div className="m-stage-card">
+                <span className="m-stage-number">{stage.id}</span>
+                
+                <div className="m-stage-progress">
+                  <span>{stage.id} / 06</span>
+                  <div className="m-stage-dots">
+                    {stages.map((_, dotIdx) => (
+                      <div key={dotIdx} className={`m-dot ${dotIdx === index ? 'active' : ''}`}></div>
+                    ))}
+                  </div>
+                </div>
+
+                <h2 className="m-stage-title">{stage.title}</h2>
+                <p className="m-stage-desc">{stage.description}</p>
               </div>
             </div>
-          ))}
-        </div>
-
+          </div>
+        ))}
+        
       </div>
+
     </PageTransition>
   );
 };
