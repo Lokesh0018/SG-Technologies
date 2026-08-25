@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram, Phone } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaPhone } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
@@ -48,11 +48,11 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} SG Technologies. All rights reserved.</p>
         <div className="footer-socials">
-          <a href="#" className="social-link"><Facebook size={20} /></a>
-          <a href="#" className="social-link"><Twitter size={20} /></a>
-          <a href="#" className="social-link"><Linkedin size={20} /></a>
-          <a href="#" className="social-link"><Instagram size={20} /></a>
-          <a href="#" className="social-link"><Phone size={20} /></a>
+          <a href="#" className="social-link"><FaFacebook size={20} /></a>
+          <a href="#" className="social-link"><FaTwitter size={20} /></a>
+          <a href="#" className="social-link"><FaLinkedin size={20} /></a>
+          <a href="#" className="social-link"><FaInstagram size={20} /></a>
+          <a href="#" className="social-link"><FaPhone size={18} /></a>
         </div>
       </div>
     </footer>
