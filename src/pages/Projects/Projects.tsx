@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import PageTransition from '../../components/PageTransition/PageTransition';
@@ -44,6 +45,7 @@ const fadeInVariant = {
 };
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredProjects = activeCategory === 'All' 
@@ -146,7 +148,7 @@ const Projects = () => {
                       <p className="project-client">Client: {project.client}</p>
                       <p className="project-desc">{project.description}</p>
                       
-                      <button className="view-case-study-btn">
+                      <button className="view-case-study-btn" onClick={() => navigate('/case-study')}>
                         View Case Study <ArrowRight size={16} />
                       </button>
                     </div>

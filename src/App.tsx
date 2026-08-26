@@ -15,6 +15,7 @@ import Cart from './pages/Cart/Cart';
 import Checkout from './pages/Checkout/Checkout';
 import Manufacturing from './pages/Manufacturing/Manufacturing';
 import Contact from './pages/Contact/Contact';
+import CaseStudy from './pages/CaseStudy/CaseStudy';
 import './App.css';
 
 // We need a wrapper component to use useLocation hook from react-router-dom
@@ -34,6 +35,7 @@ const AnimatedRoutes = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/case-study" element={<CaseStudy />} />
         {/* We will add other routes here later */}
         <Route path="*" element={<div style={{ padding: '100px', textAlign: 'center', height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><h1>Page Under Construction</h1></div>} />
       </Routes>
