@@ -15,12 +15,8 @@ const latLongToVector3 = (lat: number, lon: number, radius: number): THREE.Vecto
   // phi is the polar angle from the Y (up) axis (0 to PI).
   const phi = (90 - lat) * (Math.PI / 180);
   
-  // theta is the equator angle around the Y axis, starting from +Z.
-  // The texture maps Greenwich (lon=0) to the center (-Z). 
-  // Therefore, we offset longitude by 180 degrees to map it to -Z.
-  // We use negative longitude because Three.js theta goes counter-clockwise (+X), 
-  // while East on the map goes clockwise (-X).
-  const theta = (-lon + 180) * (Math.PI / 180);
+  // Standard Three.js sphere texture mapping usually requires an offset of 90 degrees
+  const theta = (lon + 90) * (Math.PI / 180);
 
   const spherical = new THREE.Spherical(radius, phi, theta);
   const vec = new THREE.Vector3().setFromSpherical(spherical);
@@ -105,6 +101,10 @@ const EarthRig = ({ zoomState, onZoomComplete }: Globe3DProps) => {
     // Set initial camera position if we are idle
     if (zoomState === 'idle') {
       camera.position.set(0, 0, 8);
+      if (rigRef.current && rigRef.current.rotation.y === 0) {
+        // Rotate Earth so Asia (India marker) faces the camera initially (-96.8 degrees)
+        rigRef.current.rotation.y = -1.7;
+      }
     }
 
     if (zoomState === 'zooming' && rigRef.current) {
