@@ -52,13 +52,13 @@ const Scene = () => {
             75vw is exactly halfway between center(50%) and right(100%), so X = 1.36. 
             Let's use X = 1.4 for the radio.
         */}
-        <WalkieTalkie position={[1.4, 0.2, 0]} />
+        <WalkieTalkie />
         
-        {/* Soft, blurred elliptical contact shadow */}
+        {/* Soft, blurred elliptical contact shadow covering the whole floor */}
         <ContactShadows 
-          position={[1.4, -3.8, 0]} 
+          position={[0, -3.8, 0]} 
           opacity={0.5} 
-          scale={12} 
+          scale={20} 
           blur={3.5} 
           far={6} 
           resolution={512}

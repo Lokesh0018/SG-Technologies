@@ -2,6 +2,9 @@ import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Scene from './components/Scene';
+import Features from './components/Features';
+import Specs from './components/Specs';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -17,26 +20,27 @@ function App() {
       <div style={{ position: 'relative', zIndex: 10 }}>
         <Hero />
         
-        {/* Section 2 Placeholder */}
-        <section id="section-2" style={{ 
-          height: '100vh', 
+        {/* Section 2 - The Statement */}
+        <section id="statement" style={{ 
+          minHeight: '100vh', 
           display: 'flex', 
           alignItems: 'center', 
           padding: '0 4rem',
           pointerEvents: 'none'
         }}>
-          <div style={{ maxWidth: '400px' }}>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', color: '#111' }}>
+          <div style={{ maxWidth: '500px', marginTop: '10vh' }}>
+            <h2 style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '1.5rem', color: '#111', lineHeight: 1.1, letterSpacing: '-1px' }}>
               One press.<br/>Instant connection.
             </h2>
-            <p style={{ color: '#666', fontSize: '1.2rem' }}>
+            <p style={{ color: '#555', fontSize: '1.25rem', fontWeight: 500, letterSpacing: '1px' }}>
               RADIO → NETWORK → REMOTE RADIO
             </p>
           </div>
         </section>
         
-        {/* We will add more sections later */}
-        <div style={{ height: '300vh' }}></div>
+        <Features />
+        <Specs />
+        <Footer />
       </div>
     </div>
   );
