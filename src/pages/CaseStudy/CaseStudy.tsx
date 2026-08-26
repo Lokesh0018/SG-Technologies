@@ -111,6 +111,53 @@ const CASE_STUDIES: Record<string, CaseStudyData> = {
         ]
       }
     ]
+  },
+  'poc-lte': {
+    framePath: '/poc-lte radio/poc lte/ezgif-frame-',
+    sections: [
+      {
+        id: 'intro',
+        title: 'PoC LTE Radio',
+        subtitle: 'Borderless Push-to-Talk',
+        description: 'Instant, limitless communication powered by global cellular networks.',
+      },
+      {
+        id: 'coverage',
+        title: 'Global Coverage',
+        description: 'No more range limits. Talk across the city or across the country.',
+        bullets: [
+          'National LTE coverage',
+          'Wi-Fi seamless handover'
+        ]
+      },
+      {
+        id: 'design',
+        title: 'Tactical Design',
+        description: 'Engineered for fast, reliable operation in fast-paced environments.',
+        bullets: [
+          'Dedicated PTT button',
+          'High-contrast display'
+        ]
+      },
+      {
+        id: 'audio',
+        title: 'Loud & Clear',
+        description: 'High-power speakers ensuring you hear every dispatch in noisy areas.',
+        bullets: [
+          '2W advanced speaker',
+          'Dynamic noise suppression'
+        ]
+      },
+      {
+        id: 'tracking',
+        title: 'Fleet Management',
+        description: 'Integrated GPS for precise real-time tracking of all team members.',
+        bullets: [
+          'Live GPS positioning',
+          'Route history logs'
+        ]
+      }
+    ]
   }
 };
 

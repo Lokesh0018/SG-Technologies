@@ -35,7 +35,8 @@ const projectsData = [
     year: '2026',
     client: 'National Transport Alliance',
     description: 'Equipped a fleet of 5,000 vehicles with borderless Push-to-Talk over Cellular.',
-    image: '/poc-lte radio/poc-lte-radio.png' 
+    image: '/poc-lte radio/poc-lte-radio.png',
+    caseStudySlug: 'poc-lte'
   }
 ];
 
