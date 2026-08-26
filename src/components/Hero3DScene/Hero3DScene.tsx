@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Stars, Text, Environment } from '@react-three/drei';
 import * as THREE from 'three';
+import { useTheme } from '../../context/ThemeContext';
 import './Hero3DScene.css';
 
 // Floating mechanical parts placeholder
@@ -48,10 +49,11 @@ const FloatingParts = () => {
 };
 
 const Hero3DScene = () => {
+  const { theme } = useTheme();
   return (
     <div className="hero-3d-container">
       <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
-        <color attach="background" args={['#0A0A0C']} />
+        <color attach="background" args={[theme === 'dark' ? '#0A0A0C' : '#F5F5F7']} />
         
         <ambientLight intensity={0.2} />
         <pointLight position={[10, 10, 10]} intensity={0.8} color="#ffffff" />

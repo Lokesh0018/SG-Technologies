@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Bounds, BakeShadows } from '@react-three/drei';
 import { FaExpand, FaCompress, FaSyncAlt } from 'react-icons/fa';
 import { WalkieTalkieModel } from '../WalkieTalkie3D/WalkieTalkieModel';
+import { useTheme } from '../../context/ThemeContext';
 import './Product3DViewer.css';
 
 interface Product3DViewerProps {
@@ -10,6 +11,7 @@ interface Product3DViewerProps {
 }
 
 const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
+  const { theme } = useTheme();
   const [isExploded, setIsExploded] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -52,7 +54,7 @@ const Product3DViewer = ({ modelPath }: Product3DViewerProps) => {
       </div>
 
       <Canvas key={resetKey} shadows={!isMobile} camera={{ position: [5, 2, 5], fov: 45 }}>
-        <color attach="background" args={['#0a0a0c']} />
+        <color attach="background" args={[theme === 'dark' ? '#0a0a0c' : '#F5F5F7']} />
         <ambientLight intensity={1} />
         <directionalLight position={[10, 10, 10]} intensity={1.5} castShadow={!isMobile} shadow-mapSize={1024} />
         <directionalLight position={[-10, -10, -10]} intensity={0.5} />

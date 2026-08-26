@@ -5,7 +5,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 0; /* Behind the content */
-  background-color: #050505; /* Deep black background */
+  background-color: var(--bg-darker); /* Deep black background */
   overflow: hidden;
   display: flex;
   justify-content: center;

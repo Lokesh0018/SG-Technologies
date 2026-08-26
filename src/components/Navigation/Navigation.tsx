@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Sun, Moon } from 'lucide-react';
 import { useCartStore } from '../../store/cartStore';
+import { useTheme } from '../../context/ThemeContext';
 import './Navigation.css';
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const cartItemsCount = useCartStore(state => state.getTotalItems());
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,6 +42,9 @@ const Navigation = () => {
       </div>
 
       <div className="nav-actions">
+        <button onClick={toggleTheme} className="theme-toggle-btn" aria-label="Toggle theme" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+        </button>
         <Link to="/cart" className="cart-icon-wrapper">
           <ShoppingCart size={24} />
           {cartItemsCount > 0 && (

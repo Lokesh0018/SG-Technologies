@@ -1,6 +1,7 @@
 import { useRef, useEffect, useLayoutEffect, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, useGLTF, Bounds, ContactShadows, BakeShadows } from '@react-three/drei';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, Environment, ContactShadows, PresentationControls, Bounds, useBounds, BakeShadows, PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import { useTheme } from '../../context/ThemeContext';
 import * as THREE from 'three';
 import gsap from 'gsap';
 
@@ -131,12 +132,13 @@ const CameraRig = () => {
 };
 
 const Factory3D = () => {
+  const { theme } = useTheme();
   return (
     <Canvas shadows>
       <CameraRig />
 
       {/* Industrial Lighting Setup */}
-      <color attach="background" args={['#050506']} />
+      <color attach="background" args={[theme === 'dark' ? '#050506' : '#EAEAEA']} />
 
       {/* Soft Ambient Fill */}
       <ambientLight intensity={0.4} color="#ffffff" />
