@@ -56,6 +56,12 @@ const Products = () => {
 
   return (
     <PageTransition className="products-page">
+      {/* Animated Cyber Grid Background */}
+      <div className="cyber-grid-container">
+        <div className="cyber-grid"></div>
+        <div className="cyber-grid-vignette"></div>
+      </div>
+
       <PullToRefresh onRefresh={handleRefresh}>
         <div className="products-container">
           <h1 className="page-heading">Our Products</h1>
