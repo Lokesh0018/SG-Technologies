@@ -35,7 +35,7 @@ const AnimatedRoutes = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/manufacturing" element={<Manufacturing />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/case-study" element={<CaseStudy />} />
+        <Route path="/case-study/:id" element={<CaseStudy />} />
         {/* We will add other routes here later */}
         <Route path="*" element={<div style={{ padding: '100px', textAlign: 'center', height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><h1>Page Under Construction</h1></div>} />
       </Routes>

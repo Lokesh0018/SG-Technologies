@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import CaseStudyBackground from '../../components/CaseStudyBackground/CaseStudyBackground';
 import './CaseStudy.css';
@@ -12,56 +12,120 @@ interface SectionData {
   bullets?: string[];
 }
 
-const SECTIONS: SectionData[] = [
-  {
-    id: 'intro',
-    title: 'Walkie-Talkie',
-    subtitle: 'Next-gen field communication',
-    description: 'Engineered with aerospace-grade materials for extreme conditions.',
-  },
-  {
-    id: 'clarity',
-    title: 'Unmatched Clarity',
-    description: 'Advanced noise-cancellation for crystal-clear voice transmission.',
-    bullets: [
-      'Active noise cancellation',
-      'Reduced interference'
+interface CaseStudyData {
+  framePath: string;
+  sections: SectionData[];
+}
+
+const CASE_STUDIES: Record<string, CaseStudyData> = {
+  'walkie-talkie': {
+    framePath: '/wlakie talkie/walkie talkie/ezgif-frame-',
+    sections: [
+      {
+        id: 'intro',
+        title: 'Walkie-Talkie',
+        subtitle: 'Next-gen field communication',
+        description: 'Engineered with aerospace-grade materials for extreme conditions.',
+      },
+      {
+        id: 'clarity',
+        title: 'Unmatched Clarity',
+        description: 'Advanced noise-cancellation for crystal-clear voice transmission.',
+        bullets: [
+          'Active noise cancellation',
+          'Reduced interference'
+        ]
+      },
+      {
+        id: 'autonomy',
+        title: 'Extended Autonomy',
+        description: 'Up to 72 hours of continuous operation.',
+        bullets: [
+          'High-density graphene cell',
+          'Hot-swappable packs'
+        ]
+      },
+      {
+        id: 'integration',
+        title: 'Seamless Integration',
+        description: 'Connect instantly with industrial IoT and real-time tracking.',
+        bullets: [
+          'IoT connectivity',
+          'Encrypted channels'
+        ]
+      },
+      {
+        id: 'elements',
+        title: 'Built to Last',
+        description: 'Zero equipment failure in critical moments.',
+        bullets: [
+          'Aerospace materials',
+          'IP68 water/dust proof'
+        ]
+      }
     ]
   },
-  {
-    id: 'autonomy',
-    title: 'Extended Autonomy',
-    description: 'Up to 72 hours of continuous operation.',
-    bullets: [
-      'High-density graphene cell',
-      'Hot-swappable packs'
-    ]
-  },
-  {
-    id: 'integration',
-    title: 'Seamless Integration',
-    description: 'Connect instantly with industrial IoT and real-time tracking.',
-    bullets: [
-      'IoT connectivity',
-      'Encrypted channels'
-    ]
-  },
-  {
-    id: 'elements',
-    title: 'Built to Last',
-    description: 'Zero equipment failure in critical moments.',
-    bullets: [
-      'Aerospace materials',
-      'IP68 water/dust proof'
+  'cc-camera': {
+    framePath: '/camera/cc camera/ezgif-frame-',
+    sections: [
+      {
+        id: 'intro',
+        title: 'CC Camera System',
+        subtitle: 'Automated Facility Security',
+        description: 'An intelligent 4K AI-driven surveillance system for massive industrial spaces.',
+      },
+      {
+        id: 'vision',
+        title: 'Crystal Clear 4K',
+        description: 'Capture every detail with ultra-high-definition optics and low-light sensors.',
+        bullets: [
+          '4K UHD resolution',
+          'Starlight night vision'
+        ]
+      },
+      {
+        id: 'ai-tracking',
+        title: 'AI Active Tracking',
+        description: 'Automatically detect and follow unauthorized personnel or vehicles.',
+        bullets: [
+          'Real-time object recognition',
+          'Automated PTZ tracking'
+        ]
+      },
+      {
+        id: 'durability',
+        title: 'Industrial Grade',
+        description: 'Built to withstand harsh environments, from extreme heat to freezing rain.',
+        bullets: [
+          'IP67 weatherproof rating',
+          'Vandal-resistant housing'
+        ]
+      },
+      {
+        id: 'network',
+        title: 'Smart Integration',
+        description: 'Seamlessly connects to your central security hub with zero-latency streaming.',
+        bullets: [
+          'Edge processing',
+          'Encrypted video streams'
+        ]
+      }
     ]
   }
-];
+};
 
 const CaseStudy: React.FC = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const caseStudyData = id ? CASE_STUDIES[id] : null;
 
   useEffect(() => {
+    // Reset scroll progress when switching case studies
+    window.scrollTo(0, 0);
+    setScrollProgress(0);
+
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -78,17 +142,26 @@ const CaseStudy: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [id]);
+
+  if (!caseStudyData) {
+    return (
+      <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+        <h2>Case Study Not Found</h2>
+        <button className="case-study-back-btn" style={{ position: 'relative', marginTop: '2rem', left: 'auto', top: 'auto' }} onClick={() => navigate('/projects')}>
+          <ArrowLeft size={20} /> Back to Projects
+        </button>
+      </div>
+    );
+  }
 
   // Calculate style for each section
   const getSectionStyle = (index: number) => {
-    const totalSections = SECTIONS.length;
-    // Each section gets a portion of the scroll
+    const totalSections = caseStudyData.sections.length;
     const sectionLength = 1 / totalSections;
     const sectionStart = index * sectionLength;
     const sectionEnd = sectionStart + sectionLength;
 
-    // Calculate local progress within this section's window (0 to 1)
     let localProgress = 0;
     if (scrollProgress >= sectionStart && scrollProgress <= sectionEnd) {
       localProgress = (scrollProgress - sectionStart) / sectionLength;
@@ -96,21 +169,18 @@ const CaseStudy: React.FC = () => {
       localProgress = 1;
     }
 
-    // 0 to 0.2: Fade in & move up from 100px
-    // 0.2 to 0.8: Hold (opacity 1, translateY 0)
-    // 0.8 to 1.0: Fade out & move up to -100px
     let opacity = 0;
     let translateY = 100;
     
     if (localProgress > 0 && localProgress <= 0.2) {
-      const p = localProgress / 0.2; // 0 to 1
+      const p = localProgress / 0.2; 
       opacity = p;
       translateY = 100 * (1 - p);
     } else if (localProgress > 0.2 && localProgress <= 0.8) {
       opacity = 1;
       translateY = 0;
     } else if (localProgress > 0.8 && localProgress < 1) {
-      const p = (localProgress - 0.8) / 0.2; // 0 to 1
+      const p = (localProgress - 0.8) / 0.2; 
       opacity = 1 - p;
       translateY = -100 * p;
     } else if (localProgress >= 1) {
@@ -118,14 +188,9 @@ const CaseStudy: React.FC = () => {
       translateY = -100;
     }
 
-    // Waving motion (translateX)
     const isLeft = index % 2 === 0;
-    // Wave: Center (0) -> Slightly Out (15px) -> Center (0)
     const waveAmount = Math.sin(localProgress * Math.PI) * 15;
-    // Left: wave goes right (positive). Right: wave goes left (negative)
     const translateX = isLeft ? waveAmount : -waveAmount;
-
-    // Visibility
     const isActive = localProgress > 0 && localProgress < 1;
 
     const style: React.CSSProperties = {
@@ -144,7 +209,7 @@ const CaseStudy: React.FC = () => {
         <ArrowLeft size={20} /> Back
       </button>
 
-      <CaseStudyBackground scrollProgress={scrollProgress} />
+      <CaseStudyBackground scrollProgress={scrollProgress} framePath={caseStudyData.framePath} />
       
       {/* Edge Fades */}
       <div className="edge-fade-left"></div>
@@ -152,7 +217,7 @@ const CaseStudy: React.FC = () => {
 
       {/* Fixed Narrative Container */}
       <div className="narrative-container">
-        {SECTIONS.map((section, index) => {
+        {caseStudyData.sections.map((section, index) => {
           const isLeft = index % 2 === 0;
           return (
             <div 

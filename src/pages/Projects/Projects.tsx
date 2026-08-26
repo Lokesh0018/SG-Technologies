@@ -15,7 +15,8 @@ const projectsData = [
     year: '2025',
     client: 'Apex Minerals',
     description: 'Deployed a mesh communication network 500m underground for continuous operations.',
-    image: '/wlakie talkie/walkie talkie.png' 
+    image: '/wlakie talkie/walkie talkie.png',
+    caseStudySlug: 'walkie-talkie'
   },
   { 
     id: 'proj-2', 
@@ -24,7 +25,8 @@ const projectsData = [
     year: '2024',
     client: 'Titan Logistics',
     description: 'Integrated a 4K AI-driven surveillance system across a 1M sq ft warehouse.',
-    image: '/camera/cc camera.png' 
+    image: '/camera/cc camera.png',
+    caseStudySlug: 'cc-camera'
   },
   { 
     id: 'proj-3', 
@@ -147,10 +149,11 @@ const Projects = () => {
                       <h3>{project.title}</h3>
                       <p className="project-client">Client: {project.client}</p>
                       <p className="project-desc">{project.description}</p>
-                      
-                      <button className="view-case-study-btn" onClick={() => navigate('/case-study')}>
-                        View Case Study <ArrowRight size={16} />
-                      </button>
+                      {project.caseStudySlug && (
+                        <button className="view-case-study-btn" onClick={() => navigate(`/case-study/${project.caseStudySlug}`)}>
+                          View Case Study <ArrowRight size={16} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </motion.div>

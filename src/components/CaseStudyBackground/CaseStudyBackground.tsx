@@ -3,12 +3,12 @@ import './CaseStudyBackground.css';
 
 interface CaseStudyBackgroundProps {
   scrollProgress: number; // 0 to 1
+  framePath: string; // The prefix path for the frames e.g., '/wlakie talkie/walkie talkie/ezgif-frame-'
 }
 
 const FRAME_COUNT = 300;
-const FRAME_PATH = '/wlakie talkie/walkie talkie/ezgif-frame-';
 
-const CaseStudyBackground: React.FC<CaseStudyBackgroundProps> = ({ scrollProgress }) => {
+const CaseStudyBackground: React.FC<CaseStudyBackgroundProps> = ({ scrollProgress, framePath }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [loadedCount, setLoadedCount] = useState(0);
@@ -21,7 +21,7 @@ const CaseStudyBackground: React.FC<CaseStudyBackgroundProps> = ({ scrollProgres
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
       const index = i.toString().padStart(3, '0');
-      img.src = `${FRAME_PATH}${index}.jpg`;
+      img.src = `${framePath}${index}.jpg`;
       img.onload = () => {
         loaded++;
         setLoadedCount(loaded);
