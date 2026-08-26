@@ -18,6 +18,13 @@ const Gallery = () => {
 
   return (
     <PageTransition className="gallery-page">
+      {/* Liquid Mesh Gradient Background */}
+      <div className="mesh-gradient-bg">
+        <div className="mesh-blob blob-1"></div>
+        <div className="mesh-blob blob-2"></div>
+        <div className="mesh-blob blob-3"></div>
+      </div>
+
       <div className="gallery-container">
         <h1 className="page-heading">Innovation Gallery</h1>
 

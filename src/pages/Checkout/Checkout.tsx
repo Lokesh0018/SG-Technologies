@@ -48,8 +48,8 @@ const Checkout = () => {
     
     message += `\n*Total: ₹${getTotalPrice().toLocaleString()}*\n`;
     
-    // In production, this number should come from env variables
-    const whatappNumber = '1234567890'; // Replace with actual company number
+    // Send invoice to provided WhatsApp number (+91 836 724 8639)
+    const whatappNumber = '918367248639';
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${whatappNumber}?text=${encodedMessage}`;
     
