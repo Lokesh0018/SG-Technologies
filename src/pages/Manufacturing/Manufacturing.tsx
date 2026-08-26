@@ -2,7 +2,6 @@ import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../../components/PageTransition/PageTransition';
-import Factory3D from '../../components/Factory3D/Factory3D';
 import './Manufacturing.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -57,8 +56,30 @@ const Manufacturing = () => {
         window.dispatchEvent(new CustomEvent('manufacturing-scroll', { detail: self.progress }));
       }
     });
+
+    // Animate cards on scroll
+    const cards = gsap.utils.toArray('.m-stage-card-wrapper');
+    cards.forEach((card: any) => {
+      gsap.fromTo(card, 
+        { opacity: 0, y: 80 },
+        {
+          opacity: 1, 
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          }
+        }
+      );
+    });
     
-    return () => st.kill();
+    return () => {
+      st.kill();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (

@@ -25,7 +25,7 @@
 }
 
 .m-stage-section {
-  height: 100vh; /* Each section takes exactly full height to sync with scroll */
+  height: 70vh; /* Decreased from 100vh to reduce space between cards */
   display: flex;
   align-items: center;
   position: relative;
@@ -51,6 +51,12 @@
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.m-stage-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 30px rgba(210, 35, 42, 0.2);
 }
 
 .m-stage-card::before {
