@@ -55,16 +55,11 @@ const CaseStudyBackground: React.FC<CaseStudyBackgroundProps> = ({ scrollProgres
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
     }
-  }, [scrollProgress, images]);
+  }, [scrollProgress, images, loadedCount]);
 
   return (
     <div className="case-study-background">
       <div className="case-study-background-inner">
-        {loadedCount < FRAME_COUNT * 0.1 && (
-          <div className="loading-indicator">
-            Loading Cinematic Experience...
-          </div>
-        )}
         <canvas ref={canvasRef} className="case-study-canvas" />
       </div>
     </div>
