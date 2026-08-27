@@ -26,7 +26,7 @@ const Hero = () => {
         <ImageSequence onFrame={handleFrame} />
       </div>
       
-      {/* Premium Centered Layout (Top/Bottom) */}
+      {/* Minimalist Hardware Layout */}
       <div ref={contentRef} style={{ 
           zIndex: 10, 
           pointerEvents: 'none', 
@@ -34,66 +34,90 @@ const Hero = () => {
           height: '100%',
           display: 'flex', 
           flexDirection: 'column',
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          padding: '12vh 2rem 8vh', // Push text to top and bottom edges
+          justifyContent: 'center', 
+          alignItems: 'flex-start',
           boxSizing: 'border-box',
           opacity: 1,
-          transition: 'opacity 0.3s ease-in-out'
+          transition: 'opacity 0.4s ease-in-out'
       }}>
         
-        {/* Top: Massive Centered Headline */}
-        <div style={{ textAlign: 'center', pointerEvents: 'auto', animation: 'fadeDown 1s ease-out' }}>
-          <h1 className="hero-headline" style={{ 
-            fontSize: 'clamp(3.5rem, 8vw, 6.5rem)', 
-            letterSpacing: '-3px',
-            lineHeight: 1.05,
-            color: '#111',
-            textShadow: '0 10px 30px rgba(255,255,255,0.8)' // Subtle glow to stand out against any background
-          }}>
-            Communication,<br />Reimagined.
-          </h1>
-        </div>
-
-        {/* Bottom: Description & Elegant CTA Buttons */}
-        <div style={{ 
-          textAlign: 'center', 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          gap: '2rem', 
-          pointerEvents: 'auto', 
-          maxWidth: '640px',
-          animation: 'fadeUp 1s ease-out 0.2s both'
+        {/* Structural Left Border Container */}
+        <div style={{
+          borderLeft: '1px solid rgba(17, 17, 17, 0.2)',
+          paddingLeft: '1.5rem', // Tighter padding next to the structural line
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '3rem',
+          pointerEvents: 'auto',
+          maxWidth: '650px',
+          animation: 'fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) both'
         }}>
+          
+          {/* Headline Section */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <span style={{ 
+              fontSize: '0.75rem', 
+              fontWeight: 700, 
+              letterSpacing: '0.2em', 
+              textTransform: 'uppercase', 
+              color: '#ff4500', 
+            }}>
+              THE NEW STANDARD
+            </span>
+            <h1 className="hero-headline" style={{ 
+              fontSize: 'clamp(3rem, 6vw, 5rem)', 
+              letterSpacing: '-0.04em', // Tight kerning
+              fontWeight: 800,
+              lineHeight: 1.05,
+              color: '#111',
+              margin: 0
+            }}>
+              Communication,<br />Reimagined.
+            </h1>
+          </div>
+
+          {/* Description */}
           <p className="hero-description" style={{ 
             fontSize: '1.25rem', 
-            fontWeight: 500,
-            color: '#333',
-            textShadow: '0 2px 10px rgba(255,255,255,0.8)'
+            fontWeight: 400,
+            lineHeight: 1.5,
+            color: '#444',
+            margin: 0
           }}>
             Professional two-way communication engineered for clarity, reliability, and connection wherever work takes you.
           </p>
           
-          <div className="hero-cta" style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          {/* Hardware Buttons */}
+          <div className="hero-cta" style={{ display: 'flex', gap: '1rem' }}>
             <button className="btn btn-primary" style={{ 
-              padding: '1.2rem 2.5rem', 
-              fontSize: '1.1rem', 
-              borderRadius: '50px',
-              boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
+              padding: '1rem 2.5rem', 
+              fontSize: '0.85rem', 
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              borderRadius: '0', // Sharp corners
+              backgroundColor: '#111',
+              color: '#fff',
+              border: '1px solid #111',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
             }}>
-              Pre-order Now
+              Pre-order
             </button>
             <button className="btn btn-secondary" style={{ 
-              padding: '1.2rem 2.5rem', 
-              fontSize: '1.1rem', 
-              borderRadius: '50px', 
-              backgroundColor: 'rgba(255,255,255,0.7)', 
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255,255,255,0.5)',
-              boxShadow: '0 10px 20px rgba(0,0,0,0.05)'
+              padding: '1rem 2.5rem', 
+              fontSize: '0.85rem', 
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              borderRadius: '0', // Sharp corners
+              backgroundColor: 'transparent',
+              color: '#111',
+              border: '1px solid #111',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
             }}>
-              Explore Features
+              Explore
             </button>
           </div>
         </div>
