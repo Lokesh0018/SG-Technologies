@@ -26,7 +26,7 @@ const Header = () => {
       <div className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.25rem', color: '#111', letterSpacing: '-0.5px' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}>
           <img src="/sg.png" alt="SG Tech Logo" style={{ height: '36px', width: 'auto' }} />
-          SG TECH
+          SG TECHNOLOGIES
         </Link>
       </div>
       <nav className="header-nav" style={{ display: 'flex', alignItems: 'center', gap: '3rem', fontSize: '0.95rem', fontWeight: 500, color: '#111' }}>
