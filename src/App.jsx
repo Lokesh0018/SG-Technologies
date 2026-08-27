@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Scene from './components/Scene';
+import ImageSequence from './components/ImageSequence';
 import Features from './components/Features';
 import Specs from './components/Specs';
 import Footer from './components/Footer';
@@ -11,9 +11,9 @@ function App() {
     <div className="app-container" style={{ position: 'relative' }}>
       <Header />
       
-      {/* Fixed 3D Canvas Background */}
+      {/* Fixed Image Sequence Background */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh', zIndex: 0 }}>
-        <Scene />
+        <ImageSequence />
       </div>
       
       {/* Scrollable DOM Sections */}

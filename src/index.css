@@ -172,7 +172,7 @@ body {
 /* Features Section */
 .section-features {
   padding: 8rem 4rem;
-  background-color: var(--color-surface);
+  background-color: transparent;
   position: relative;
   z-index: 10;
 }
@@ -311,7 +311,7 @@ body {
 
 /* Specs Section */
 .section-specs {
-  background-color: #050505;
+  background-color: transparent;
   background-image: radial-gradient(circle at top right, rgba(255,69,0,0.05), transparent 40%);
   color: #ffffff;
   padding: 8rem 4rem;
@@ -384,7 +384,7 @@ body {
 
 /* Footer */
 .footer {
-  background-color: #000;
+  background-color: transparent;
   color: #fff;
   padding: 6rem 4rem 2rem;
   position: relative;
