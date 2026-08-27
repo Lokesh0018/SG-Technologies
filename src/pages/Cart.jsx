@@ -2,10 +2,12 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
   const containerRef = useRef(null);
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -135,19 +137,27 @@ const Cart = () => {
             <span style={{ fontWeight: '700', fontSize: '1.5rem' }}>₹{cartTotal.toLocaleString()}</span>
           </div>
 
-          <button style={{
-            fontFamily: '"Syne", sans-serif',
-            fontWeight: '700',
-            fontSize: '1rem',
-            letterSpacing: '1px',
-            backgroundColor: '#111',
-            color: '#fff',
-            border: 'none',
-            padding: '1.5rem',
-            cursor: 'pointer',
-            width: '100%',
-            transition: 'opacity 0.3s'
-          }}>
+          <button 
+            onClick={() => navigate('/checkout')}
+            style={{
+              width: '100%',
+              backgroundColor: '#111',
+              color: '#fff',
+              border: 'none',
+              padding: '1.2rem',
+              fontFamily: '"Courier New", Courier, monospace',
+              fontSize: '1rem',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.8rem'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#25D366'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#111'}
+          >
             PROCEED TO CHECKOUT
           </button>
         </div>
