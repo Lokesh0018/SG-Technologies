@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 300;
-const FRAME_PREFIX = '/moto%20exp%20frames/ezgif-frame-';
+const FRAME_PREFIX = '/aspire%20exp%20frames/ezgif-frame-';
 const FRAME_SUFFIX = '.jpg';
 
-const MotoSequence = forwardRef(({ scrollContainerRef, onProgress, onLoadComplete }, ref) => {
+const AspireSequence = forwardRef(({ scrollContainerRef, onProgress, onLoadComplete }, ref) => {
   const canvasRef = useRef(null);
   const playheadRef = useRef({ frame: 1 });
   const imagesRef = useRef([]);
@@ -48,8 +48,8 @@ const MotoSequence = forwardRef(({ scrollContainerRef, onProgress, onLoadComplet
       const sw = iw * scale;
       const sh = ih * scale;
       
-      // Shift right by 8% to give space for the text on the left
-      const sx = ((cw - sw) / 2) + (cw * 0.08); 
+      // Shift left by 8% to give space for the text on the right
+      const sx = ((cw - sw) / 2) - (cw * 0.08); 
       // Shift down slightly to push the bottom edge further down
       const sy = ((ch - sh) / 2) + (ch * 0.05);
 
@@ -142,4 +142,4 @@ const MotoSequence = forwardRef(({ scrollContainerRef, onProgress, onLoadComplet
   );
 });
 
-export default MotoSequence;
+export default AspireSequence;
