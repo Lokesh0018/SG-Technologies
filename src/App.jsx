@@ -9,6 +9,7 @@ import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Gallery from './pages/Gallery';
 import Manufacturing from './pages/Manufacturing';
+import Contact from './pages/Contact';
 import { CartProvider } from './context/CartContext';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/products/:slug" element={<ProductDetails />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/manufacturing" element={<Manufacturing />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
         
         <Footer />

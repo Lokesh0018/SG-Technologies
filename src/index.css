@@ -1228,3 +1228,28 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Editorial Form Input */
+.editorial-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #111;
+  transition: border-color 0.3s ease;
+}
+
+.editorial-input:focus {
+  outline: none;
+  border-bottom-color: #111;
+}
+
+.editorial-input::placeholder {
+  color: #aaa;
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
