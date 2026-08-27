@@ -83,13 +83,29 @@ body {
 
 .header-nav a {
   text-decoration: none;
-  color: var(--color-text-muted);
+  color: #888;
   font-weight: 500;
   transition: color 0.2s;
+  position: relative;
 }
 
 .header-nav a:hover {
   color: var(--color-text-main);
+}
+
+.header-nav a.active {
+  color: #111;
+}
+
+.header-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #111;
+  border-radius: 2px;
 }
 
 /* Hero Section */
