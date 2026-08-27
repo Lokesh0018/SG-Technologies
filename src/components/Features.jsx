@@ -12,7 +12,7 @@ const Features = () => {
   const bgRef = useRef(null);
   const part1Ref = useRef(null);
   const part2Ref = useRef(null);
-  const part3Ref = useRef(null);
+  const part4Ref = useRef(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -27,60 +27,70 @@ const Features = () => {
           const p = self.progress;
           progressRef.current = p;
 
-          // Background Color Interpolation
-          if (bgRef.current) {
-            // Transition from off-white (#F5F5F2) to near-black (#0a0a0a) at 66% progress
-            if (p < 0.6) {
-              bgRef.current.style.backgroundColor = '#F5F5F2';
-            } else if (p > 0.8) {
-              bgRef.current.style.backgroundColor = '#0a0a0a';
-            } else {
-              // Interpolate
-              const t = (p - 0.6) / 0.2;
-              const r = Math.round(245 - (t * (245 - 10)));
-              const g = Math.round(245 - (t * (245 - 10)));
-              const b = Math.round(242 - (t * (242 - 10)));
-              bgRef.current.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-            }
-          }
+          // Maintained single off-white background throughout
 
-          // Part 1: Hero (Fades out around 30%)
-          if (part1Ref.current) {
-            const opacity = p < 0.25 ? 1 : Math.max(0, 1 - ((p - 0.25) / 0.08));
-            part1Ref.current.style.opacity = opacity;
-            part1Ref.current.style.transform = `translateY(${-p * 150}px)`;
-            part1Ref.current.style.pointerEvents = opacity > 0.1 ? 'auto' : 'none';
-          }
-
-          // Part 2: Product (Fades in at 35%, fades out at 65%)
-          if (part2Ref.current) {
-            let opacity = 0;
-            let translateY = 50;
+          // Helper to manage fade and translate of text blocks (with staggering)
+          const animatePart = (ref, startP, endP, currentP, fadeIn = true, fadeOut = true) => {
+            if (!ref.current) return;
             
-            if (p > 0.3 && p < 0.7) {
-              if (p < 0.4) {
-                opacity = (p - 0.3) / 0.1; // Fade in
-                translateY = 50 * (1 - opacity);
-              } else if (p > 0.6) {
-                opacity = 1 - ((p - 0.6) / 0.1); // Fade out
-                translateY = -50 * (1 - opacity);
+            // Global Pointer Events
+            const localProgress = (currentP - startP) / (endP - startP);
+            let isActive = false;
+            if (currentP >= startP || !fadeIn) {
+              if (fadeOut && currentP > endP) {
+                isActive = false;
               } else {
-                opacity = 1;
-                translateY = 0;
+                isActive = true;
               }
             }
-            part2Ref.current.style.opacity = opacity;
-            part2Ref.current.style.transform = `translateY(${translateY}px)`;
-            part2Ref.current.style.pointerEvents = opacity > 0.1 ? 'auto' : 'none';
-          }
+            ref.current.style.pointerEvents = isActive ? 'auto' : 'none';
 
-          // Part 3: CTA (Fades in at 75%)
-          if (part3Ref.current) {
-            const opacity = p > 0.75 ? Math.min(1, (p - 0.75) / 0.1) : 0;
-            part3Ref.current.style.opacity = opacity;
-            part3Ref.current.style.transform = `translateY(${50 * (1 - opacity)}px)`;
-            part3Ref.current.style.pointerEvents = opacity > 0.1 ? 'auto' : 'none';
-          }
+            // Staggered lines
+            const lines = ref.current.querySelectorAll('.reveal-inner');
+            lines.forEach((line, index) => {
+              const staggerOffset = index * 0.05;
+              const lineProgress = localProgress - staggerOffset;
+              
+              let lineOpacity = 0;
+              let lineTranslateY = 100;
+              
+              if (currentP >= startP || !fadeIn) {
+                if (lineProgress < 0 && fadeIn) {
+                  // Not yet started for this specific line
+                  lineOpacity = 0;
+                  lineTranslateY = 100;
+                } else if (lineProgress < 0.25 && fadeIn) {
+                  // Fading in
+                  lineOpacity = lineProgress / 0.25;
+                  lineTranslateY = 100 * (1 - (lineProgress / 0.25));
+                } else if (fadeOut && lineProgress > 0.75) {
+                  // Fading out (only if fadeOut is true)
+                  const fadeOutProgress = (lineProgress - 0.75) / 0.25;
+                  if (fadeOutProgress > 1) {
+                    lineOpacity = 0;
+                    lineTranslateY = -100;
+                  } else {
+                    lineOpacity = 1 - fadeOutProgress;
+                    lineTranslateY = -100 * fadeOutProgress;
+                  }
+                } else {
+                  // Fully visible
+                  lineOpacity = 1;
+                  lineTranslateY = 0;
+                }
+              }
+              
+              line.style.opacity = lineOpacity;
+              line.style.transform = `translateY(${lineTranslateY}%)`;
+            });
+          };
+
+          // Part 1 (Right - Starts fully visible)
+          animatePart(part1Ref, 0.0, 0.30, p, false, true); 
+          // Part 2 (Left - extended time)
+          animatePart(part2Ref, 0.20, 0.70, p, true, true);
+          // Part 4 (Left - CTA - Stays visible at end)
+          animatePart(part4Ref, 0.65, 1.0, p, true, false);
         }
       }
     });
@@ -93,8 +103,17 @@ const Features = () => {
     };
   }, []);
 
+  // Helper component for staggered text lines
+  const RevealLine = ({ children, className = "" }) => (
+    <div style={{ overflow: 'hidden', paddingBottom: '0.1em' }} className={className}>
+      <div className="reveal-inner" style={{ willChange: 'transform, opacity', display: 'block', transform: 'translateY(100%)', opacity: 0 }}>
+        {children}
+      </div>
+    </div>
+  );
+
   return (
-    <section ref={sectionRef} className="cinematic-section" style={{ height: '1200vh', position: 'relative', padding: 0 }}>
+    <section ref={sectionRef} className="cinematic-section" style={{ height: '1600vh', position: 'relative', padding: 0 }}>
       <style>{`
         .cinematic-section {
           position: relative;
@@ -108,8 +127,7 @@ const Features = () => {
           height: 100vh;
           width: 100%;
           overflow: hidden;
-          background-color: #F5F5F2; /* Initial warm off-white */
-          transition: background-color 0.1s linear;
+          background-color: #F5F5F2; 
         }
 
         .typography-layer {
@@ -119,35 +137,53 @@ const Features = () => {
           width: 100%;
           height: 100%;
           pointer-events: none;
-          z-index: 15; /* Sits above or intertwined with 3D model depending on z-index */
+          z-index: 15; 
           display: flex;
           align-items: center;
-          padding: 0 10vw;
+          padding: 0 5vw;
+        }
+
+        .text-column-left {
+          width: 45%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding-left: 5vw;
+        }
+        
+        .text-column-right {
+          width: 45%;
+          margin-left: 55%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding-right: 5vw;
         }
 
         .huge-headline {
-          font-size: clamp(4rem, 8vw, 7rem);
+          font-family: 'Syne', sans-serif;
+          font-size: clamp(2.5rem, 4.5vw, 4.5rem);
           font-weight: 800;
-          line-height: 0.95;
-          letter-spacing: -3px;
-          margin: 0 0 2rem 0;
-          color: #111;
+          line-height: 1.1;
+          letter-spacing: -2px;
+          margin: 0 0 1.5rem 0;
+          color: #111111;
         }
 
         .subtitle {
-          font-size: clamp(1.2rem, 2vw, 1.5rem);
+          font-size: clamp(1rem, 1.5vw, 1.25rem);
           font-weight: 500;
           color: #444;
           max-width: 500px;
-          line-height: 1.4;
+          line-height: 1.5;
           letter-spacing: -0.5px;
-          margin-bottom: 3rem;
+          margin-bottom: 2.5rem;
         }
 
         .btn-minimal {
           display: inline-block;
-          padding: 1rem 2.5rem;
-          background-color: #111;
+          padding: 1.25rem 3rem;
+          background-color: #111111;
           color: #fff;
           font-weight: 600;
           font-size: 1rem;
@@ -164,134 +200,99 @@ const Features = () => {
           transform: translateY(-2px);
         }
 
-        /* Part 2 Specifics */
         .tech-list {
           list-style: none;
           padding: 0;
           margin: 0;
-          margin-top: 3rem;
         }
 
         .tech-list li {
           font-size: 1.25rem;
           font-weight: 600;
-          color: #111;
+          color: #111111;
           margin-bottom: 1rem;
           display: flex;
           align-items: center;
         }
 
         .tech-list li::before {
-          content: '';
-          display: inline-block;
-          width: 6px;
-          height: 6px;
-          background-color: #ff3300;
-          border-radius: 50%;
-          margin-right: 1rem;
-        }
-
-        /* Part 3 Specifics */
-        .part3-content .huge-headline {
-          color: #fff;
-        }
-        
-        .part3-content .subtitle {
-          color: #aaa;
-        }
-        
-        .part3-content .btn-minimal {
-          background-color: #fff;
-          color: #000;
-        }
-        
-        .part3-content .btn-minimal:hover {
-          background-color: #ff3300;
-          color: #fff;
-        }
-
-        .footer-links {
-          margin-top: 4rem;
-          display: flex;
-          gap: 1.5rem;
-          pointer-events: auto;
-        }
-
-        .footer-links a {
-          color: #888;
-          text-decoration: none;
+          content: '0' counter(list-item) ' ';
+          counter-increment: list-item;
+          color: #ff3300;
+          margin-right: 1.5rem;
           font-size: 0.9rem;
-          font-weight: 600;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          transition: color 0.2s ease;
+          letter-spacing: 2px;
         }
 
-        .footer-links a:hover {
-          color: #fff;
-        }
-
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .typography-layer {
-            padding: 0 5vw;
+            align-items: flex-end;
+            padding-bottom: 10vh;
+          }
+          .text-column-left, .text-column-right {
+            width: 100%;
+            margin-left: 0;
+            padding: 0;
+          }
+          .huge-headline {
+            font-size: 3.5rem;
           }
         }
       `}</style>
 
       <div ref={bgRef} className="sticky-bg">
-        {/* We place WalkieTalkie3D exactly in the middle so it intertwines with the text */}
         <WalkieTalkie3D progressRef={progressRef} />
         
-        {/* PART 1: BUILT FOR THE MOMENT */}
-        <div ref={part1Ref} className="typography-layer" style={{ justifyContent: 'flex-start', willChange: 'opacity, transform' }}>
-          <div>
+        {/* SECTION 01: Model Left, Text Right */}
+        <div ref={part1Ref} className="typography-layer">
+          <div className="text-column-right">
             <h2 className="huge-headline">
-              BUILT FOR<br />THE MOMENT.
+              <RevealLine>BUILT FOR</RevealLine>
+              <RevealLine>THE MOMENT.</RevealLine>
             </h2>
-            <p className="subtitle">
-              Professional communication engineered for demanding environments.
-            </p>
-            <a href="#" className="btn-minimal">Explore Product</a>
+            <div className="subtitle">
+              <RevealLine>Professional communication</RevealLine>
+              <RevealLine>engineered for demanding environments.</RevealLine>
+            </div>
+            <RevealLine><a href="#" className="btn-minimal">Explore Product</a></RevealLine>
           </div>
         </div>
 
-        {/* PART 2: ENGINEERED TO PERFORM */}
-        <div ref={part2Ref} className="typography-layer" style={{ justifyContent: 'center', opacity: 0, willChange: 'opacity, transform' }}>
-          <div style={{ textAlign: 'center' }}>
-            <h2 className="huge-headline" style={{ position: 'relative', zIndex: 10 }}>
-              ENGINEERED<br />TO PERFORM.
+        {/* SECTION 02: Text Left, Model Right */}
+        <div ref={part2Ref} className="typography-layer">
+          <div className="text-column-left">
+            <h2 className="huge-headline">
+              <RevealLine>ENGINEERED</RevealLine>
+              <RevealLine>TO PERFORM.</RevealLine>
             </h2>
-            <p className="subtitle" style={{ margin: '0 auto', textAlign: 'center' }}>
-              Every detail is designed for reliable communication when it matters most.
-            </p>
-            
-            <ul className="tech-list" style={{ display: 'flex', gap: '2rem', justifyContent: 'center', marginTop: '4rem' }}>
-              <li>Rugged construction</li>
-              <li>Clear audio</li>
-              <li>Long-range</li>
-              <li>48-Hour battery</li>
+            <div className="subtitle">
+              <RevealLine>Every component is designed for</RevealLine>
+              <RevealLine>reliable communication when performance matters.</RevealLine>
+            </div>
+            <ul className="tech-list" style={{ counterReset: 'list-item' }}>
+              <RevealLine><li>Rugged construction</li></RevealLine>
+              <RevealLine><li>Clear audio</li></RevealLine>
+              <RevealLine><li>Long-range</li></RevealLine>
+              <RevealLine><li>All-day battery</li></RevealLine>
             </ul>
           </div>
         </div>
 
-        {/* PART 3: READY WHEN IT MATTERS */}
-        <div ref={part3Ref} className="typography-layer part3-content" style={{ justifyContent: 'flex-start', opacity: 0, willChange: 'opacity, transform' }}>
-          <div>
+
+
+        {/* SECTION 04: Text Left, Model Right */}
+        <div ref={part4Ref} className="typography-layer part4-content">
+          <div className="text-column-left">
             <h2 className="huge-headline">
-              READY<br />WHEN IT<br />MATTERS.
+              <RevealLine>WHEN IT</RevealLine>
+              <RevealLine>MATTERS,</RevealLine>
+              <RevealLine>BE READY.</RevealLine>
             </h2>
-            <p className="subtitle">
-              Reliable communication. Wherever the job takes you.
-            </p>
-            <a href="#" className="btn-minimal">Buy Now</a>
-            
-            <div className="footer-links">
-              <a href="#">Product</a>
-              <a href="#">Technology</a>
-              <a href="#">Features</a>
-              <a href="#">Specs</a>
-              <a href="#">About</a>
+            <div className="subtitle">
+              <RevealLine>Professional communication</RevealLine>
+              <RevealLine>without compromise.</RevealLine>
             </div>
+            <RevealLine><a href="#" className="btn-minimal">Buy Now</a></RevealLine>
           </div>
         </div>
       </div>

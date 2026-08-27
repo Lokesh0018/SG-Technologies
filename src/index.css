@@ -31,6 +31,30 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Cinematic Film Grain Overlay */
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200vh;
+  background: transparent url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain-animation 0.5s steps(4) infinite;
+}
+
+@keyframes grain-animation {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1%, 1%); }
+  50% { transform: translate(1%, -1%); }
+  75% { transform: translate(-1%, -1%); }
+}
+
 /* Header */
 .header {
   position: fixed;
@@ -284,13 +308,12 @@ body {
 
 /* Specs Section */
 .section-specs {
-  background-color: #050505;
-  background-image: radial-gradient(circle at top right, rgba(255,69,0,0.05), transparent 40%);
-  color: #ffffff;
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
   padding: 8rem 4rem;
   position: relative;
   z-index: 10;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(0,0,0,0.05);
 }
 
 .specs-container {
@@ -305,7 +328,7 @@ body {
   margin-bottom: 5rem;
   border-bottom: 1px solid rgba(255,255,255,0.1);
   padding-bottom: 2rem;
-  background: linear-gradient(90deg, #fff, #888);
+  background: linear-gradient(90deg, #111, #888);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -337,7 +360,7 @@ body {
 }
 
 .spec-group li:hover {
-  background-color: rgba(255,255,255,0.02);
+  background-color: rgba(0,0,0,0.02);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
@@ -352,13 +375,13 @@ body {
   font-weight: 600;
   text-align: right;
   max-width: 60%;
-  color: #e0e0e0;
+  color: #111;
 }
 
 /* Footer */
 .footer {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
   padding: 6rem 4rem 2rem;
   position: relative;
   z-index: 10;
@@ -396,7 +419,7 @@ body {
 .link-group h4 {
   font-size: 1rem;
   margin-bottom: 1.5rem;
-  color: #fff;
+  color: #111;
 }
 
 .link-group a {
@@ -415,7 +438,7 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;

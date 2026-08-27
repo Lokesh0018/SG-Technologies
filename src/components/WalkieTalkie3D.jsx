@@ -21,24 +21,26 @@ const Model = ({ progressRef }) => {
     
     const progress = progressRef.current; // Read from mutable ref (no re-renders!)
     
-    // Waypoint 0 (Left - Hero)
-    const wp0Pos = new THREE.Vector3(-4, -2.5, 1);
-    const wp0Scale = new THREE.Vector3(12, 12, 12);
+    // Waypoint 0 (Start: Left, somewhat small)
+    const wp0Pos = new THREE.Vector3(-4, -2, -1);
+    const wp0Scale = new THREE.Vector3(10, 10, 10);
     const wp0Rot = new THREE.Euler(0.2, -Math.PI / 4, 0.1);
     
-    // Waypoint 1 (Center - Tech)
-    const wp1Pos = new THREE.Vector3(0, -2.5, 2); 
-    const wp1Scale = new THREE.Vector3(14, 14, 14);
-    const wp1Rot = new THREE.Euler(0.1, -Math.PI / 8, 0);
+    // Waypoint 1 (Middle: Center, big)
+    const wp1Pos = new THREE.Vector3(0, -2, 2); 
+    const wp1Scale = new THREE.Vector3(15, 15, 15);
+    const wp1Rot = new THREE.Euler(0.1, 0, 0);
 
-    // Waypoint 2 (Right - CTA)
-    const wp2Pos = new THREE.Vector3(4, -2.5, 1); 
+    // Waypoint 2 (End: Complete Right, receives signals)
+    const wp2Pos = new THREE.Vector3(4, -2, 1); 
     const wp2Scale = new THREE.Vector3(12, 12, 12);
-    const wp2Rot = new THREE.Euler(0.1, Math.PI / 8, -0.05);
+    const wp2Rot = new THREE.Euler(0.1, Math.PI / 4, -0.05);
 
-    // Multi-phase interpolation based on progress
+    let blurAmount = 0;
+
+    // Single one-way animation (Left -> Center -> Right)
     if (progress < 0.5) {
-      // Interpolate between Left and Center
+      // Phase 1: Left to Center
       const localProgress = progress * 2; // scale 0-0.5 to 0-1
       groupRef.current.position.lerpVectors(wp0Pos, wp1Pos, localProgress);
       groupRef.current.scale.lerpVectors(wp0Scale, wp1Scale, localProgress);
@@ -47,7 +49,7 @@ const Model = ({ progressRef }) => {
       const qEnd = new THREE.Quaternion().setFromEuler(wp1Rot);
       groupRef.current.quaternion.slerpQuaternions(qStart, qEnd, localProgress);
     } else {
-      // Interpolate between Center and Right
+      // Phase 2: Center to Right
       const localProgress = (progress - 0.5) * 2; // scale 0.5-1.0 to 0-1
       groupRef.current.position.lerpVectors(wp1Pos, wp2Pos, localProgress);
       groupRef.current.scale.lerpVectors(wp1Scale, wp2Scale, localProgress);
@@ -95,7 +97,11 @@ const Model = ({ progressRef }) => {
 const WalkieTalkie3D = ({ progressRef }) => {
   return (
     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 20 }}>
-      <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+      <Canvas 
+        camera={{ position: [0, 0, 8], fov: 45 }}
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: true }}
+      >
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
         <directionalLight position={[-10, 5, -5]} intensity={0.8} color="#ff3300" />
@@ -108,7 +114,7 @@ const WalkieTalkie3D = ({ progressRef }) => {
         </Suspense>
         
         {/* Sparkles effect */}
-        <Sparkles count={50} scale={12} size={2} speed={0.4} opacity={0.5} color="#ff3300" />
+        <Sparkles count={150} scale={14} size={3} speed={0.5} opacity={0.8} color="#ff3300" />
       </Canvas>
     </div>
   );

@@ -28,6 +28,7 @@ function App() {
 
   return (
     <div className="app-container" style={{ position: 'relative' }}>
+      <div className="grain-overlay"></div>
       <LoadingScreen isFadingOut={!isLoading} />
       <Header />
       
