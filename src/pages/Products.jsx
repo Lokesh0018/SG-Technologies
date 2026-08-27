@@ -38,6 +38,15 @@ const Products = () => {
   const xTo = useRef(null);
   const yTo = useRef(null);
   
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => (prev === productsData.length - 1 ? 0 : prev + 1));
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+  
   const [loupeState, setLoupeState] = useState({
     isVisible: false,
     image: '',
@@ -142,21 +151,114 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="about-editorial-page" style={{ paddingTop: '15vh' }} ref={containerRef}>
+    <div className="about-editorial-page" style={{ paddingTop: '100px' }} ref={containerRef}>
       
       <div style={{ position: 'relative', zIndex: 1, padding: '0 5vw' }}>
         
-        {/* HEADER SECTION */}
-        <section className="about-section hero-section" style={{ minHeight: 'auto', paddingBottom: '10vh' }}>
-          <div className="section-label reveal-up">HARDWARE</div>
-          <h1 className="editorial-headline reveal-up" style={{ display: 'inline-block' }}>OUR<br/>PRODUCTS.</h1>
-          <p className="editorial-paragraph reveal-up">
-            Precision-engineered hardware available for deployment.
-          </p>
+        {/* HEADER SECTION WITH CAROUSEL */}
+        <section className="about-section hero-section" style={{ minHeight: 'auto', paddingBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '40px' }}>
+          
+          <div style={{ width: '40%', maxWidth: '500px', flexShrink: 0 }}>
+            <div className="section-label reveal-up">HARDWARE</div>
+            <h1 className="editorial-headline reveal-up" style={{ display: 'inline-block' }}>OUR<br/>PRODUCTS.</h1>
+            <p className="editorial-paragraph reveal-up">
+              Precision-engineered hardware available for deployment.
+            </p>
+          </div>
+
+          <div className="hero-carousel reveal-up" style={{ width: '55%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', position: 'relative', overflow: 'hidden' }}>
+            
+            {/* Controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', fontFamily: '"Courier New", Courier, monospace', fontSize: '0.8rem', fontWeight: 'bold' }}>
+              <span style={{ color: 'var(--sg-red, #D2232A)' }}>0{currentSlide + 1}</span> 
+              <span style={{ color: '#ccc' }}>/</span> 
+              <span style={{ color: '#888' }}>0{productsData.length}</span>
+              
+              <div style={{ display: 'flex', gap: '0.5rem', marginLeft: '1rem' }}>
+                <button 
+                  onClick={() => setCurrentSlide(prev => (prev === 0 ? productsData.length - 1 : prev - 1))}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#111' }}
+                >
+                  &larr;
+                </button>
+                <button 
+                  onClick={() => setCurrentSlide(prev => (prev === productsData.length - 1 ? 0 : prev + 1))}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', color: '#111' }}
+                >
+                  &rarr;
+                </button>
+              </div>
+            </div>
+
+            {/* Slides Container */}
+            <div style={{ display: 'flex', width: '100%', transition: 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)', transform: `translateX(-${currentSlide * 100}%)` }}>
+              {productsData.map((product) => (
+                <div key={product.id} style={{ width: '100%', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                  
+                  {/* Image */}
+                  <div style={{ width: '250px', height: '250px', flexShrink: 0, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      style={{ 
+                        maxHeight: '100%', 
+                        maxWidth: '100%', 
+                        objectFit: 'contain',
+                        filter: 'grayscale(100%) contrast(1.1) brightness(0.95)',
+                        transition: 'transform 0.4s ease',
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    />
+                  </div>
+                  
+                  {/* Details */}
+                  <div style={{ flex: 1, paddingRight: '2rem' }}>
+                    <div style={{ fontFamily: '"Courier New", Courier, monospace', fontSize: '0.65rem', letterSpacing: '0.1em', color: '#888', marginBottom: '0.5rem', textTransform: 'uppercase' }}>
+                      {product.category}
+                    </div>
+                    <h2 style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 0.5rem 0', color: '#111' }}>
+                      {product.name}
+                    </h2>
+                    <p style={{ fontSize: '0.85rem', color: '#555', lineHeight: 1.5, marginBottom: '1.5rem' }}>
+                      {product.description}
+                    </p>
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontFamily: '"Courier New", Courier, monospace', fontWeight: 'bold', fontSize: '1rem', color: '#111' }}>
+                        ₹{product.price.toLocaleString()}
+                      </span>
+                      <button 
+                        onClick={() => handleAddToCart(product)}
+                        style={{ 
+                          padding: '0.6rem 1.2rem', 
+                          backgroundColor: '#111', 
+                          color: '#fff', 
+                          border: 'none', 
+                          cursor: 'pointer',
+                          fontFamily: '"Inter", sans-serif',
+                          fontSize: '0.75rem',
+                          fontWeight: 600,
+                          letterSpacing: '0.05em',
+                          textTransform: 'uppercase',
+                          transition: 'background-color 0.2s ease'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--sg-red, #D2232A)'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#111'}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
         </section>
 
         {/* PRODUCTS GRID */}
-        <section style={{ borderTop: '1px solid #e0e0e0', paddingTop: '4rem', paddingBottom: '10vh' }}>
+        <section style={{ borderTop: '1px solid #e0e0e0', paddingTop: '2rem', paddingBottom: '10vh' }}>
           <div className="editorial-product-grid">
             {productsData.map((product) => (
               <div key={product.id} className="product-card-minimal reveal-up">

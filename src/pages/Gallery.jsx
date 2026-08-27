@@ -49,14 +49,14 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className="about-editorial-page" ref={containerRef} style={{ minHeight: '100vh', paddingTop: '15vh' }}>
+    <div className="about-editorial-page" ref={containerRef} style={{ minHeight: '100vh', paddingTop: '100px' }}>
       
       {/* Header */}
-      <section className="about-section hero-section" style={{ minHeight: 'auto', paddingBottom: '10vh' }}>
-        <div className="section-label reveal-image">FACILITIES</div>
-        <h1 className="editorial-headline reveal-image" style={{ display: 'inline-block' }}>MANUFACTURING<br/>CAPABILITIES.</h1>
+      <section className="about-section hero-section" style={{ minHeight: 'auto', paddingTop: '40px', paddingBottom: '2rem' }}>
+        <div className="section-label reveal-image">ARCHIVE</div>
+        <h1 className="editorial-headline reveal-image" style={{ display: 'inline-block' }}>OUR<br/>GALLERY.</h1>
         <p className="editorial-paragraph reveal-image">
-          Inside our advanced facilities where precision engineering meets scalable production.
+          A visual documentation of our precision engineering and industrial facilities.
         </p>
       </section>
 
