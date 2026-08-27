@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ImageSequence from './ImageSequence';
 
 const Hero = ({ onLoadComplete }) => {
   const contentRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleFrame = (frame) => {
     if (!contentRef.current) return;
@@ -87,9 +89,12 @@ const Hero = ({ onLoadComplete }) => {
             Professional two-way communication engineered for clarity, reliability, and connection wherever work takes you.
           </p>
           
-          {/* Hardware Buttons */}
-          <div className="hero-cta" style={{ display: 'flex', gap: '1rem' }}>
-            <button className="btn btn-primary" style={{ 
+          {/* Action Buttons */}
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', pointerEvents: 'auto' }}>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => navigate('/products')}
+              style={{ 
               padding: '1rem 2.5rem', 
               fontSize: '0.85rem', 
               fontWeight: 700,
@@ -104,7 +109,10 @@ const Hero = ({ onLoadComplete }) => {
             }}>
               Pre-order
             </button>
-            <button className="btn btn-secondary" style={{ 
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => navigate('/about')}
+              style={{ 
               padding: '1rem 2.5rem', 
               fontSize: '0.85rem', 
               fontWeight: 700,
