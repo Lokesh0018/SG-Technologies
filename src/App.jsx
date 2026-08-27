@@ -7,6 +7,7 @@ import About from './pages/About';
 import Projects from './pages/Projects';
 import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
+import Gallery from './pages/Gallery';
 import { CartProvider } from './context/CartContext';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:slug" element={<ProductDetails />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
         
         <Footer />
