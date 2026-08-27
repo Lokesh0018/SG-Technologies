@@ -396,20 +396,21 @@ body {
 
 /* Footer */
 .footer {
-  background-color: var(--color-surface);
-  color: var(--color-text-main);
-  padding: 6rem 4rem 2rem;
+  background-color: #ffffff;
+  color: #111;
+  padding: 3rem 4rem 1.5rem;
   position: relative;
   z-index: 10;
+  border-top: 1px solid #e0e0e0;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   max-width: 1400px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2.5rem;
   flex-wrap: wrap;
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .footer-brand {
@@ -423,13 +424,14 @@ body {
 }
 
 .footer-tagline {
-  color: #888;
-  line-height: 1.6;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .footer-links {
   display: flex;
-  gap: 4rem;
+  gap: 3rem;
 }
 
 .link-group h4 {
@@ -440,26 +442,27 @@ body {
 
 .link-group a {
   display: block;
-  color: #888;
+  color: #666;
   text-decoration: none;
-  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
   transition: color 0.2s;
 }
 
 .link-group a:hover {
-  color: var(--color-accent);
+  color: #D2232A;
 }
 
 .footer-bottom {
   max-width: 1400px;
   margin: 0 auto;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #666;
-  font-size: 0.9rem;
+  color: #888;
+  font-size: 0.85rem;
 }
 
 .footer-socials {
@@ -468,13 +471,208 @@ body {
 }
 
 .footer-socials a {
-  color: #666;
+  color: #888;
   text-decoration: none;
+  font-weight: 500;
   transition: color 0.2s;
 }
 
 .footer-socials a:hover {
-  color: #fff;
+  color: #111;
+}
+
+/* About Editorial Page Styles */
+.about-editorial-page {
+  position: relative;
+  background-color: #F7F7F5; /* Warm off-white */
+  color: #111;
+  min-height: 100vh;
+}
+
+/* Sections */
+.about-section {
+  padding: 10vh 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Typography */
+.editorial-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 5vw, 5rem); /* Capped around 80px */
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: #111;
+  margin-bottom: 1.5rem;
+}
+
+.editorial-subheadline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #111;
+  margin-bottom: 1rem;
+}
+
+.editorial-paragraph {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+  max-width: 500px;
+}
+
+/* Specific Layouts */
+.hero-section {
+  padding-top: 25vh;
+  min-height: 80vh;
+}
+
+.split-section {
+  display: flex;
+  gap: 4rem;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 4rem;
+}
+
+.split-left {
+  flex: 1;
+}
+
+.split-right {
+  flex: 2;
+  max-width: 600px;
+}
+
+.clean-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.clean-list-item {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.clean-list-item:first-child {
+  border-top: 1px solid #e0e0e0;
+}
+
+.clean-list-item:hover {
+  transform: translateX(5px);
+}
+
+.clean-list-item:hover .list-title {
+  color: #D2232A;
+}
+
+.list-num {
+  font-family: 'Courier New', Courier, monospace;
+  color: #666;
+}
+
+.list-title {
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.list-desc {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Philosophy */
+.philosophy-section {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 15vh 0;
+}
+
+.philosophy-text {
+  flex: 1;
+}
+
+.philosophy-3d {
+  flex: 1;
+  background-color: transparent;
+  border-radius: 4px;
+}
+
+/* Process Timeline */
+.process-timeline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-num {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.step-desc {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.process-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0.6rem 1.5rem 0;
+}
+
+/* Final Section */
+.final-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20vh 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.final-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.final-links a {
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.final-links a:hover {
+  color: #D2232A;
 }
 
 /* Responsive */

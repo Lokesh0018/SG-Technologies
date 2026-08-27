@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
-  const [activeNav, setActiveNav] = useState('home');
+  const location = useLocation();
+  const path = location.pathname;
 
   return (
     <header className="header" style={{
@@ -17,27 +19,25 @@ const Header = () => {
       alignItems: 'center'
     }}>
       <div className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.25rem', color: '#111', letterSpacing: '-0.5px' }}>
-        <img src="/sg.png" alt="SG Tech Logo" style={{ height: '36px', width: 'auto' }} />
-        SG TECH
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}>
+          <img src="/sg.png" alt="SG Tech Logo" style={{ height: '36px', width: 'auto' }} />
+          SG TECH
+        </Link>
       </div>
       <nav className="header-nav" style={{ display: 'flex', alignItems: 'center', gap: '3rem', fontSize: '0.95rem', fontWeight: 500, color: '#111' }}>
-        <a 
-          href="#home" 
-          className={activeNav === 'home' ? 'active' : ''}
-          onClick={(e) => {
-            e.preventDefault();
-            setActiveNav('home');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+        <Link 
+          to="/" 
+          className={path === '/' ? 'active' : ''}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           Home
-        </a>
-        <a href="#about" className={activeNav === 'about' ? 'active' : ''} onClick={() => setActiveNav('about')}>About</a>
-        <a href="#projects" className={activeNav === 'projects' ? 'active' : ''} onClick={() => setActiveNav('projects')}>Projects</a>
-        <a href="#products" className={activeNav === 'products' ? 'active' : ''} onClick={() => setActiveNav('products')}>Products</a>
-        <a href="#gallery" className={activeNav === 'gallery' ? 'active' : ''} onClick={() => setActiveNav('gallery')}>Gallery</a>
-        <a href="#manufacturing" className={activeNav === 'manufacturing' ? 'active' : ''} onClick={() => setActiveNav('manufacturing')}>Manufacturing</a>
-        <a href="#contact" className={activeNav === 'contact' ? 'active' : ''} onClick={() => setActiveNav('contact')}>Contact</a>
+        </Link>
+        <Link to="/about" className={path === '/about' ? 'active' : ''}>About</Link>
+        <Link to="/projects" className={path === '/projects' ? 'active' : ''}>Projects</Link>
+        <Link to="/products" className={path === '/products' ? 'active' : ''}>Products</Link>
+        <Link to="/gallery" className={path === '/gallery' ? 'active' : ''}>Gallery</Link>
+        <Link to="/manufacturing" className={path === '/manufacturing' ? 'active' : ''}>Manufacturing</Link>
+        <Link to="/contact" className={path === '/contact' ? 'active' : ''}>Contact</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           <a href="#cart" style={{ position: 'relative', display: 'flex', alignItems: 'center', color: '#111', textDecoration: 'none', cursor: 'pointer' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
