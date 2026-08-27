@@ -70,7 +70,7 @@ const ProductDetails = () => {
     <div className="about-editorial-page" ref={containerRef} style={{ minHeight: '100vh', display: 'flex' }}>
       
       {/* Left Side: 3D Viewer */}
-      <div style={{ flex: 1.2, backgroundColor: '#f5f5f5', position: 'sticky', top: 0, height: '100vh', borderRight: '1px solid #e0e0e0' }}>
+      <div style={{ flex: 1.2, backgroundColor: '#f5f5f5', position: 'sticky', top: 0, height: '100vh', borderRight: '1px solid #e0e0e0', zIndex: 1, paddingTop: '90px', boxSizing: 'border-box' }}>
         <div style={{ position: 'absolute', top: '120px', left: '3rem', zIndex: 10 }}>
           <Link to="/products" className="pd-reveal" style={{ 
             fontFamily: '"Courier New", Courier, monospace', 

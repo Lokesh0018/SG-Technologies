@@ -10,6 +10,7 @@ import ProductDetails from './pages/ProductDetails';
 import Gallery from './pages/Gallery';
 import Manufacturing from './pages/Manufacturing';
 import Contact from './pages/Contact';
+import Cart from './pages/Cart';
 import { CartProvider } from './context/CartContext';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/manufacturing" element={<Manufacturing />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         
         <Footer />

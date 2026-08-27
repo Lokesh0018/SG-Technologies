@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { useGLTF, PresentationControls, Stage, Environment } from '@react-three/drei';
+import { useGLTF, OrbitControls, Bounds, Environment } from '@react-three/drei';
 
 function Model({ url }) {
   const { scene } = useGLTF(url);
@@ -10,22 +10,27 @@ function Model({ url }) {
 const Product3DViewer = ({ modelPath }) => {
   return (
     <div style={{ width: '100%', height: '100%', cursor: 'grab' }}>
-      <Canvas shadows dpr={[1, 2]} camera={{ fov: 45 }}>
+      <Canvas shadows dpr={[1, 2]} camera={{ position: [5, 2, 5], fov: 45 }}>
+        <color attach="background" args={['#f5f5f5']} />
+        <ambientLight intensity={1} />
+        <directionalLight position={[10, 10, 10]} intensity={1.5} />
+        <directionalLight position={[-10, -10, -10]} intensity={0.5} />
+        
         <Suspense fallback={null}>
+          <Bounds fit clip observe margin={1.2}>
+            <Model url={modelPath} />
+          </Bounds>
           <Environment preset="studio" />
-          <PresentationControls
-            global
-            config={{ mass: 2, tension: 500 }}
-            snap={{ mass: 4, tension: 1500 }}
-            rotation={[0, 0.3, 0]}
-            polar={[-Math.PI / 3, Math.PI / 3]}
-            azimuth={[-Math.PI / 1.4, Math.PI / 2]}
-          >
-            <Stage environment={null} intensity={1} contactShadow opacity={0.5} shadowBias={-0.0015}>
-              <Model url={modelPath} />
-            </Stage>
-          </PresentationControls>
         </Suspense>
+
+        <OrbitControls 
+          makeDefault
+          enablePan={false}
+          minDistance={0.1}
+          maxDistance={30}
+          autoRotate={true}
+          autoRotateSpeed={1.5}
+        />
       </Canvas>
       
       <div style={{
