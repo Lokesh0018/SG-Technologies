@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -35,7 +35,61 @@ const productsData = [
 
 const Products = () => {
   const containerRef = useRef(null);
+  const xTo = useRef(null);
+  const yTo = useRef(null);
+  
+  const [loupeState, setLoupeState] = useState({
+    isVisible: false,
+    image: '',
+    bgX: 50,
+    bgY: 50
+  });
+
   const { addToCart } = useCart();
+
+  const handleMouseEnter = (image) => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    setLoupeState(prev => ({ ...prev, isVisible: true, image }));
+    gsap.to('.product-loupe', { scale: 1, opacity: 1, duration: 0.2, ease: 'power2.out' });
+  };
+
+  const handleMouseLeave = () => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    setLoupeState(prev => ({ ...prev, isVisible: false }));
+    gsap.to('.product-loupe', { scale: 0.92, opacity: 0, duration: 0.2, ease: 'power2.out' });
+  };
+
+  const handleMouseMove = (e) => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    
+    const loupeSize = 180;
+    const offset = 25;
+    
+    let targetX = e.clientX + offset;
+    let targetY = e.clientY + offset;
+
+    if (targetX + loupeSize > window.innerWidth) {
+      targetX = e.clientX - loupeSize - offset;
+    }
+    if (targetY + loupeSize > window.innerHeight) {
+      targetY = e.clientY - loupeSize - offset;
+    }
+
+    if (xTo.current && yTo.current) {
+      xTo.current(targetX);
+      yTo.current(targetY);
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    
+    // Clamp percentages between 0 and 100
+    let xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+    let yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+    xPercent = Math.max(0, Math.min(100, xPercent));
+    yPercent = Math.max(0, Math.min(100, yPercent));
+
+    setLoupeState(prev => ({ ...prev, bgX: xPercent, bgY: yPercent }));
+  };
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -79,6 +133,9 @@ const Products = () => {
           }
         );
       });
+
+      xTo.current = gsap.quickTo('.product-loupe', 'x', { duration: 0.15, ease: 'power3' });
+      yTo.current = gsap.quickTo('.product-loupe', 'y', { duration: 0.15, ease: 'power3' });
     }, containerRef);
 
     return () => ctx.revert();
@@ -104,7 +161,14 @@ const Products = () => {
             {productsData.map((product) => (
               <div key={product.id} className="product-card-minimal reveal-up">
                 
-                <Link to={`/products/${product.id}`} className="product-image-minimal" style={{ cursor: 'pointer' }}>
+                <Link 
+                  to={`/products/${product.id}`} 
+                  className="product-image-minimal" 
+                  style={{ cursor: 'pointer' }}
+                  onMouseEnter={() => handleMouseEnter(product.image)}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={handleMouseMove}
+                >
                   <img src={product.image} alt={product.name} />
                 </Link>
                 
@@ -136,6 +200,16 @@ const Products = () => {
         </section>
 
       </div>
+      
+      {/* FLOATING LOUPE COMPONENT */}
+      <div 
+        className="product-loupe" 
+        style={{
+          backgroundImage: `url('${loupeState.image}')`,
+          backgroundPosition: `${loupeState.bgX}% ${loupeState.bgY}%`,
+        }}
+      ></div>
+      
     </div>
   );
 };
