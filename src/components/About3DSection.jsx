@@ -83,9 +83,9 @@ const About3DSection = () => {
         
         {/* SECTION 01: MINIMAL HERO */}
         <section className="about-section hero-section">
-          <div className="section-label">ABOUT SG TECH</div>
-          <h1 className="editorial-headline">ENGINEERING<br/>THAT PERFORMS.</h1>
-          <p className="editorial-paragraph">
+          <div className="section-label reveal-up">ABOUT SG TECH</div>
+          <h1 className="editorial-headline reveal-up">ENGINEERING<br/>THAT PERFORMS.</h1>
+          <p className="editorial-paragraph reveal-up">
             SG TECH develops reliable industrial communication systems designed for demanding environments.
           </p>
         </section>
