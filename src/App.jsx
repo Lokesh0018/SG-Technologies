@@ -3,7 +3,6 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import BlueprintSection from './components/BlueprintSection';
 import Features from './components/Features';
-import Specs from './components/Specs';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 
@@ -40,7 +39,6 @@ function App() {
         <BlueprintSection onLoadComplete={handleBlueprintLoadComplete} />
         
         <Features />
-        <Specs />
         <Footer />
       </div>
     </div>

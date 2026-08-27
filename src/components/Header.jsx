@@ -32,7 +32,7 @@ const Header = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: '10px', 
+          borderRadius: '3rem', 
           fontWeight: 600,
           textDecoration: 'none',
           transition: 'background-color 0.2s'
