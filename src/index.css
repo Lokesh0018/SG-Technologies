@@ -959,3 +959,111 @@ body {
   text-decoration: underline;
   font-weight: 600;
 }
+
+/* Editorial Products Grid */
+.editorial-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.product-card-minimal {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 2rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  height: 100%;
+}
+
+.product-card-minimal:hover {
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  transform: translateY(-5px);
+}
+
+.product-image-minimal {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.product-image-minimal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.product-card-minimal:hover .product-image-minimal img {
+  transform: scale(1.05);
+}
+
+.product-info-minimal {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-cat {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.product-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 1rem;
+}
+
+.product-desc {
+  font-family: 'Inter', sans-serif;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1rem;
+}
+
+.product-price {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  color: #111;
+  font-size: 1.1rem;
+}
+
+.product-btn-minimal {
+  background-color: transparent;
+  color: #111;
+  border: 1px solid #111;
+  padding: 0.6rem 1.2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product-btn-minimal:hover {
+  background-color: #111;
+  color: #fff;
+}

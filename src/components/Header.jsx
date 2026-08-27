@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const location = useLocation();
   const path = location.pathname;
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
 
   return (
     <header className="header" style={{
@@ -60,7 +63,7 @@ const Header = () => {
               justifyContent: 'center',
               borderRadius: '50%'
             }}>
-              2
+              {cartCount}
             </span>
           </a>
           <a href="#buy" style={{ 
