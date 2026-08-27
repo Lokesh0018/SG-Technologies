@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCart } from '../context/CartContext';
@@ -103,13 +104,15 @@ const Products = () => {
             {productsData.map((product) => (
               <div key={product.id} className="product-card-minimal reveal-up">
                 
-                <div className="product-image-minimal">
+                <Link to={`/products/${product.id}`} className="product-image-minimal" style={{ cursor: 'pointer' }}>
                   <img src={product.image} alt={product.name} />
-                </div>
+                </Link>
                 
                 <div className="product-info-minimal">
                   <div className="product-cat">{product.category}</div>
-                  <h3 className="product-name">{product.name}</h3>
+                  <Link to={`/products/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <h3 className="product-name" style={{ cursor: 'pointer' }}>{product.name}</h3>
+                  </Link>
                   <p className="product-desc">{product.description}</p>
                   
                   <div className="product-footer">
