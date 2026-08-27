@@ -8,7 +8,7 @@ const FRAME_COUNT = 300;
 const FRAME_PREFIX = '/ezgif-2e81e83e5d4eb60e-jpg/ezgif-frame-';
 const FRAME_SUFFIX = '.jpg';
 
-const ImageSequence = () => {
+const ImageSequence = ({ onFrame }) => {
   const canvasRef = useRef(null);
   const playheadRef = useRef({ frame: 1 });
   const imagesRef = useRef([]);
@@ -84,7 +84,9 @@ const ImageSequence = () => {
       ease: "none",
       repeat: -1, // Infinite loop
       onUpdate: () => {
-        renderFrame(Math.round(playhead.frame));
+        const currentFrame = Math.round(playhead.frame);
+        renderFrame(currentFrame);
+        if (onFrame) onFrame(currentFrame);
       }
     });
 
@@ -100,8 +102,7 @@ const ImageSequence = () => {
       style={{
         width: '100%',
         height: '100%',
-        display: 'block',
-        mixBlendMode: 'multiply'
+        display: 'block'
       }}
     />
   );

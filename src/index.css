@@ -75,19 +75,10 @@ body {
   height: 100vh;
   padding: 0 4rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center; /* Center items vertically */
   max-width: 1920px;
   margin: 0 auto;
   position: relative;
-}
-
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 45%;
-  margin-top: 28vh; /* 27-30% of hero height */
-  padding-right: 2rem; /* Ensure it never crosses the 45% boundary */
 }
 
 .hero-headline {
@@ -151,28 +142,12 @@ body {
   background-color: #f7f7f7;
 }
 
-/* 3D Placeholder */
-.hero-visual {
-  width: 55%;
-  height: 100vh;
-  position: absolute;
-  right: 0;
-  top: 0;
-  pointer-events: none;
-}
 
-.placeholder-text {
-  font-weight: 600;
-  color: var(--color-text-muted);
-  font-size: 1.5rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
 
 /* Features Section */
 .section-features {
   padding: 8rem 4rem;
-  background-color: transparent;
+  background-color: var(--color-surface);
   position: relative;
   z-index: 10;
 }
@@ -311,7 +286,7 @@ body {
 
 /* Specs Section */
 .section-specs {
-  background-color: transparent;
+  background-color: #050505;
   background-image: radial-gradient(circle at top right, rgba(255,69,0,0.05), transparent 40%);
   color: #ffffff;
   padding: 8rem 4rem;
@@ -384,7 +359,7 @@ body {
 
 /* Footer */
 .footer {
-  background-color: transparent;
+  background-color: #000;
   color: #fff;
   padding: 6rem 4rem 2rem;
   position: relative;
