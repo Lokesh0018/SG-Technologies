@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Specs from './components/Specs';
 import Footer from './components/Footer';
+import LoadingScreen from './components/LoadingScreen';
 
 function App() {
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [minTimePassed, setMinTimePassed] = useState(false);
+
+  useEffect(() => {
+    // The loading animation takes exactly 4 seconds (120 frames at ~30fps).
+    // Ensure it plays at least once fully.
+    const timer = setTimeout(() => {
+      setMinTimePassed(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleLoadComplete = () => {
+    setImagesLoaded(true);
+  };
+
+  const isLoading = !(imagesLoaded && minTimePassed);
+
   return (
     <div className="app-container" style={{ position: 'relative' }}>
+      <LoadingScreen isFadingOut={!isLoading} />
       <Header />
       
       {/* Scrollable DOM Sections */}
       <div style={{ position: 'relative', zIndex: 10 }}>
-        <Hero />
+        <Hero onLoadComplete={handleLoadComplete} />
         
         {/* Section 2 - The Statement */}
         <section id="statement" style={{ 

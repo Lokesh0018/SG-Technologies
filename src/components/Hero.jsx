@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import ImageSequence from './ImageSequence';
 
-const Hero = () => {
+const Hero = ({ onLoadComplete }) => {
   const contentRef = useRef(null);
 
   const handleFrame = (frame) => {
@@ -23,7 +23,7 @@ const Hero = () => {
     <section className="hero" style={{ pointerEvents: 'none', position: 'relative', overflow: 'hidden' }}>
       {/* Background Image Sequence */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
-        <ImageSequence onFrame={handleFrame} />
+        <ImageSequence onFrame={handleFrame} onLoadComplete={onLoadComplete} />
       </div>
       
       {/* Minimalist Hardware Layout */}

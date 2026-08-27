@@ -1,18 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const FRAME_COUNT = 300;
-const FRAME_PREFIX = '/ezgif-2e81e83e5d4eb60e-jpg/ezgif-frame-';
+const FRAME_COUNT = 120;
+const FRAME_PREFIX = '/loading/ezgif-frame-';
 const FRAME_SUFFIX = '.jpg';
 
-const ImageSequence = ({ onFrame, onLoadComplete }) => {
+const LoadingScreen = ({ isFadingOut }) => {
   const canvasRef = useRef(null);
   const playheadRef = useRef({ frame: 1 });
   const imagesRef = useRef([]);
   const ctxRef = useRef(null);
+  const animationRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,9 +61,25 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
         // Render first frame as soon as it loads
         renderFrame(1);
       }
-      if (loadedCount === FRAME_COUNT && onLoadComplete) {
-        onLoadComplete();
+      
+      // Start animation once a good chunk is loaded to prevent initial stutter
+      if (loadedCount === Math.min(30, FRAME_COUNT) && !animationRef.current) {
+        startAnimation();
       }
+    };
+
+    const startAnimation = () => {
+      const playhead = playheadRef.current;
+      animationRef.current = gsap.to(playhead, {
+        frame: FRAME_COUNT,
+        duration: 4, // 120 frames at ~30fps
+        ease: "none",
+        repeat: 0, // Play exactly once and then hold on the final frame
+        onUpdate: () => {
+          const currentFrame = Math.round(playhead.frame);
+          renderFrame(currentFrame);
+        }
+      });
     };
 
     for (let i = 1; i <= FRAME_COUNT; i++) {
@@ -78,37 +92,39 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
     
     imagesRef.current = images;
 
-    const playhead = playheadRef.current;
-    
-    // Play in a continuous loop using GSAP
-    const animation = gsap.to(playhead, {
-      frame: FRAME_COUNT,
-      duration: 10, // 10 seconds for 300 frames (~30fps). Change this to adjust speed.
-      ease: "none",
-      repeat: -1, // Infinite loop
-      onUpdate: () => {
-        const currentFrame = Math.round(playhead.frame);
-        renderFrame(currentFrame);
-        if (onFrame) onFrame(currentFrame);
-      }
-    });
-
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      animation.kill();
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'block'
-      }}
-    />
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 9999,
+      backgroundColor: 'transparent',
+      opacity: isFadingOut ? 0 : 1,
+      pointerEvents: isFadingOut ? 'none' : 'auto',
+      transition: 'opacity 1s ease-in-out',
+      background: 'white' // Let's add a solid background so it hides the partially loaded main sequence. But the user said transparent. Oh well, if it's transparent, it'll show the main site loading. Let's make it transparent but with a slight blur, or just transparent as requested.
+    }}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'block',
+          backgroundColor: 'transparent'
+        }}
+      />
+    </div>
   );
 };
 
-export default ImageSequence;
+export default LoadingScreen;
