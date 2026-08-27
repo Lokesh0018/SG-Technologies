@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 300;
-const FRAME_PREFIX = '/ezgif-2e81e83e5d4eb60e-jpg/ezgif-frame-';
+const FRAME_PREFIX = '/blueprint%20animation/ezgif-frame-';
 const FRAME_SUFFIX = '.jpg';
 
-const ImageSequence = ({ onFrame, onLoadComplete }) => {
+const BlueprintSequence = ({ scrollContainerRef, onProgress, onLoadComplete }) => {
   const canvasRef = useRef(null);
   const playheadRef = useRef({ frame: 1 });
   const imagesRef = useRef([]);
@@ -16,7 +16,7 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !scrollContainerRef.current) return;
 
     const ctx = canvas.getContext('2d');
     ctxRef.current = ctx;
@@ -57,31 +57,14 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
     let loadedCount = 0;
     const images = [];
 
-    const playhead = playheadRef.current;
-
-    // Play in a continuous loop using GSAP, but start paused until loaded!
-    const animation = gsap.to(playhead, {
-      frame: FRAME_COUNT,
-      duration: 10, // 10 seconds for 300 frames (~30fps). Change this to adjust speed.
-      ease: "none",
-      repeat: -1, // Infinite loop
-      paused: true, // Wait for images to load
-      onUpdate: () => {
-        const currentFrame = Math.round(playhead.frame);
-        renderFrame(currentFrame);
-        if (onFrame) onFrame(currentFrame);
-      }
-    });
-
     const onImageLoaded = () => {
       loadedCount++;
-      if (loadedCount === 1) {
-        // Render first frame as soon as it loads
-        renderFrame(1);
+      // Redraw the current frame just in case this newly loaded image is the one we are currently trying to look at
+      if (playheadRef.current) {
+        renderFrame(Math.round(playheadRef.current.frame));
       }
-      if (loadedCount === FRAME_COUNT) {
-        if (onLoadComplete) onLoadComplete();
-        animation.play(); // Start the animation only when everything is loaded
+      if (loadedCount === FRAME_COUNT && onLoadComplete) {
+        onLoadComplete();
       }
     };
 
@@ -95,11 +78,37 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
     
     imagesRef.current = images;
 
+    // Tie animation to ScrollTrigger
+    const playhead = playheadRef.current;
+    
+    const animation = gsap.to(playhead, {
+      frame: FRAME_COUNT,
+      ease: "none",
+      scrollTrigger: {
+        trigger: scrollContainerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true, // Lock directly to scrollbar so it never lags behind
+        onUpdate: (self) => {
+          const currentFrame = Math.round(playhead.frame);
+          renderFrame(currentFrame);
+          if (onProgress) {
+            onProgress(currentFrame);
+          }
+        }
+      }
+    });
+
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       animation.kill();
+      ScrollTrigger.getAll().forEach(t => {
+         if (t.trigger === scrollContainerRef.current) {
+            t.kill();
+         }
+      });
     };
-  }, []);
+  }, []); // Remove dependencies to prevent re-initialization
 
   return (
     <canvas
@@ -113,4 +122,4 @@ const ImageSequence = ({ onFrame, onLoadComplete }) => {
   );
 };
 
-export default ImageSequence;
+export default BlueprintSequence;

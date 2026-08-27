@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import BlueprintSection from './components/BlueprintSection';
 import Features from './components/Features';
 import Specs from './components/Specs';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 
 function App() {
-  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
+  const [blueprintLoaded, setBlueprintLoaded] = useState(false);
   const [minTimePassed, setMinTimePassed] = useState(false);
 
   useEffect(() => {
@@ -19,11 +21,11 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLoadComplete = () => {
-    setImagesLoaded(true);
-  };
+  const handleHeroLoadComplete = () => setHeroLoaded(true);
+  const handleBlueprintLoadComplete = () => setBlueprintLoaded(true);
 
-  const isLoading = !(imagesLoaded && minTimePassed);
+  // Loading screen only fades out when ALL 600 heavy frames are fully in memory
+  const isLoading = !(heroLoaded && blueprintLoaded && minTimePassed);
 
   return (
     <div className="app-container" style={{ position: 'relative' }}>
@@ -32,25 +34,10 @@ function App() {
       
       {/* Scrollable DOM Sections */}
       <div style={{ position: 'relative', zIndex: 10 }}>
-        <Hero onLoadComplete={handleLoadComplete} />
+        <Hero onLoadComplete={handleHeroLoadComplete} />
         
-        {/* Section 2 - The Statement */}
-        <section id="statement" style={{ 
-          minHeight: '100vh', 
-          display: 'flex', 
-          alignItems: 'center', 
-          padding: '0 4rem',
-          pointerEvents: 'none'
-        }}>
-          <div style={{ maxWidth: '500px', marginTop: '10vh' }}>
-            <h2 style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '1.5rem', color: '#111', lineHeight: 1.1, letterSpacing: '-1px' }}>
-              One press.<br/>Instant connection.
-            </h2>
-            <p style={{ color: '#555', fontSize: '1.25rem', fontWeight: 500, letterSpacing: '1px' }}>
-              RADIO → NETWORK → REMOTE RADIO
-            </p>
-          </div>
-        </section>
+        {/* Section 2 - Blueprint Animation */}
+        <BlueprintSection onLoadComplete={handleBlueprintLoadComplete} />
         
         <Features />
         <Specs />
