@@ -63,7 +63,6 @@ const Header = () => {
               2
             </span>
           </a>
-          
           <a href="#buy" style={{ 
             background: '#111', 
             color: '#fff', 
