@@ -14,11 +14,14 @@ const Header = () => {
       width: '100%',
       height: '90px',
       zIndex: 100,
-      background: 'transparent',
+      background: path === '/' ? 'transparent' : 'rgba(255, 255, 255, 0.8)',
+      backdropFilter: path === '/' ? 'none' : 'blur(12px)',
+      WebkitBackdropFilter: path === '/' ? 'none' : 'blur(12px)',
       padding: '0 4rem',
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      borderBottom: path === '/' ? 'none' : '1px solid rgba(0,0,0,0.05)'
     }}>
       <div className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.25rem', color: '#111', letterSpacing: '-0.5px' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}>
