@@ -60,7 +60,7 @@ const Hero = ({ onLoadComplete }) => {
               fontWeight: 700, 
               letterSpacing: '0.2em', 
               textTransform: 'uppercase', 
-              color: '#ff4500', 
+              color: '#ff0800ff', 
             }}>
               THE NEW STANDARD
             </span>

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import gsap from 'gsap';
 
 const FRAME_COUNT = 120;
@@ -100,19 +101,29 @@ const LoadingScreen = ({ isFadingOut }) => {
     };
   }, []);
 
-  return (
+  useEffect(() => {
+    if (isFadingOut) {
+      document.body.style.overflow = '';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isFadingOut]);
+
+  return ReactDOM.createPortal(
     <div style={{
       position: 'fixed',
       top: 0,
       left: 0,
       width: '100%',
       height: '100%',
-      zIndex: 9999,
-      backgroundColor: 'transparent',
+      zIndex: 999999, // Ensure it's above EVERYTHING
+      backgroundColor: 'white', // Solid white background
       opacity: isFadingOut ? 0 : 1,
       pointerEvents: isFadingOut ? 'none' : 'auto',
-      transition: 'opacity 1s ease-in-out',
-      background: 'white' // Let's add a solid background so it hides the partially loaded main sequence. But the user said transparent. Oh well, if it's transparent, it'll show the main site loading. Let's make it transparent but with a slight blur, or just transparent as requested.
+      transition: 'opacity 1s ease-in-out'
     }}>
       <canvas
         ref={canvasRef}
@@ -123,7 +134,8 @@ const LoadingScreen = ({ isFadingOut }) => {
           backgroundColor: 'transparent'
         }}
       />
-    </div>
+    </div>,
+    document.body
   );
 };
 
