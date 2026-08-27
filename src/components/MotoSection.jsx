@@ -1,64 +1,96 @@
 import React, { useRef, useState, useEffect } from 'react';
-import MotoSequence from './MotoSequence';
-import AspireSequence from './AspireSequence';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MotoSection = ({ onLoadComplete }) => {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
   const motoContainerRef = useRef(null);
   const asperaContainerRef = useRef(null);
-  const sequenceRefMoto = useRef(null);
-  const sequenceRefAspera = useRef(null);
+  const videoRefMoto = useRef(null);
+  const videoRefAspera = useRef(null);
 
   const [activeProduct, setActiveProduct] = useState('motorola');
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isMotoTextHidden, setIsMotoTextHidden] = useState(false);
+  const [isAsperaTextHidden, setIsAsperaTextHidden] = useState(false);
+  
+  const activeProductRef = useRef(activeProduct);
+  const isTransitioningRef = useRef(isTransitioning);
+
+  useEffect(() => {
+    activeProductRef.current = activeProduct;
+    isTransitioningRef.current = isTransitioning;
+  }, [activeProduct, isTransitioning]);
 
   const [motoLoaded, setMotoLoaded] = useState(false);
-  const [asperaLoaded, setAsperaLoaded] = useState(false);
 
   useEffect(() => {
-    if (motoLoaded && asperaLoaded && onLoadComplete) {
+    if (motoLoaded && onLoadComplete) {
       onLoadComplete();
     }
-  }, [motoLoaded, asperaLoaded, onLoadComplete]);
+  }, [motoLoaded, onLoadComplete]);
 
+  // Master ScrollTrigger to manage playing/pausing globally
   useEffect(() => {
-    if (textRef.current) {
-      textRef.current.dataset.product = activeProduct;
-    }
-  }, [activeProduct]);
-
-  // Pause Aspera initially
-  useEffect(() => {
-    if (asperaLoaded && sequenceRefAspera.current) {
-      sequenceRefAspera.current.pause();
-    }
-  }, [asperaLoaded]);
-
-  const handleProgress = (currentFrame, product) => {
-    // Ignore updates from the inactive sequence to prevent UI fighting
-    if (product !== activeProduct) return;
-
-    if (textRef.current && !isTransitioning) {
-      const isMoto = activeProduct === 'motorola';
-      if ((currentFrame >= 1 && currentFrame < 80) || (currentFrame >= 225 && currentFrame <= 300)) {
-        textRef.current.style.opacity = '1';
-        textRef.current.style.transform = 'translate(0px, -50%)';
-      } else {
-        textRef.current.style.opacity = '0';
-        textRef.current.style.transform = isMoto ? 'translate(-40px, -50%)' : 'translate(40px, -50%)';
+    const playActive = () => {
+      if (isTransitioningRef.current) return;
+      if (activeProductRef.current === 'motorola' && videoRefMoto.current) {
+        videoRefMoto.current.play().catch(e => console.log('Autoplay prevented', e));
+      } else if (activeProductRef.current === 'aspera' && videoRefAspera.current) {
+        videoRefAspera.current.play().catch(e => console.log('Autoplay prevented', e));
       }
+    };
+
+    const pauseAll = () => {
+      if (videoRefMoto.current) videoRefMoto.current.pause();
+      if (videoRefAspera.current) videoRefAspera.current.pause();
+    };
+
+    const st = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      onEnter: playActive,
+      onEnterBack: playActive,
+      onLeave: pauseAll,
+      onLeaveBack: pauseAll,
+    });
+
+    return () => st.kill();
+  }, []);
+
+  // Handle video-synced text animation for Motorola
+  useEffect(() => {
+    if (activeProduct !== 'motorola' || isTransitioning) return;
+    
+    if (isMotoTextHidden) {
+      gsap.to(textRef.current, { opacity: 0, x: -40, duration: 0.5, ease: 'power2.out' });
+    } else {
+      gsap.to(textRef.current, { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' });
     }
-  };
+  }, [isMotoTextHidden, activeProduct, isTransitioning]);
+
+  // Handle video-synced text animation for Aspera
+  useEffect(() => {
+    if (activeProduct !== 'aspera' || isTransitioning) return;
+    
+    if (isAsperaTextHidden) {
+      gsap.to(textRef.current, { opacity: 0, x: 40, duration: 0.5, ease: 'power2.out' });
+    } else {
+      gsap.to(textRef.current, { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' });
+    }
+  }, [isAsperaTextHidden, activeProduct, isTransitioning]);
 
   const handleNext = () => {
     if (activeProduct === 'aspera' || isTransitioning) return;
     
     setIsTransitioning(true);
     
-    if (sequenceRefMoto.current) {
-      sequenceRefMoto.current.pause();
+    if (videoRefMoto.current) {
+      videoRefMoto.current.pause();
     }
 
     gsap.to(textRef.current, { opacity: 0, duration: 0.3, onComplete: () => {
@@ -71,10 +103,10 @@ const MotoSection = ({ onLoadComplete }) => {
     gsap.fromTo(asperaContainerRef.current, 
       { x: '-100%' }, 
       { x: '0%', duration: 0.9, ease: 'power3.inOut', onComplete: () => {
-        if (sequenceRefAspera.current) {
-          sequenceRefAspera.current.resume();
-        }
         setIsTransitioning(false);
+        if (videoRefAspera.current && ScrollTrigger.isInViewport(sectionRef.current)) {
+          videoRefAspera.current.play().catch(e => console.log('Autoplay prevented', e));
+        }
       }}
     );
   };
@@ -84,8 +116,8 @@ const MotoSection = ({ onLoadComplete }) => {
 
     setIsTransitioning(true);
 
-    if (sequenceRefAspera.current) {
-      sequenceRefAspera.current.pause();
+    if (videoRefAspera.current) {
+      videoRefAspera.current.pause();
     }
 
     gsap.to(textRef.current, { opacity: 0, duration: 0.3, onComplete: () => {
@@ -98,10 +130,10 @@ const MotoSection = ({ onLoadComplete }) => {
     gsap.fromTo(motoContainerRef.current,
       { x: '-100%' },
       { x: '0%', duration: 0.9, ease: 'power3.inOut', onComplete: () => {
-        if (sequenceRefMoto.current) {
-          sequenceRefMoto.current.resume();
-        }
         setIsTransitioning(false);
+        if (videoRefMoto.current && ScrollTrigger.isInViewport(sectionRef.current)) {
+          videoRefMoto.current.play().catch(e => console.log('Autoplay prevented', e));
+        }
       }}
     );
   };
@@ -135,11 +167,46 @@ const MotoSection = ({ onLoadComplete }) => {
       }}
     >
       <div ref={motoContainerRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, transform: 'translateX(0%)', willChange: 'transform' }}>
-        <MotoSequence ref={sequenceRefMoto} scrollContainerRef={sectionRef} onProgress={(frame) => handleProgress(frame, 'motorola')} onLoadComplete={() => setMotoLoaded(true)} />
+        <video 
+          ref={videoRefMoto}
+          src="/moto%20exp.mp4" 
+          muted 
+          loop 
+          playsInline
+          onCanPlayThrough={() => setMotoLoaded(true)}
+          onTimeUpdate={(e) => {
+            const time = e.target.currentTime;
+            if (activeProduct === 'motorola' && !isTransitioning) {
+              if (time >= 3 && time < 7) {
+                if (!isMotoTextHidden) setIsMotoTextHidden(true);
+              } else {
+                if (isMotoTextHidden) setIsMotoTextHidden(false);
+              }
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
 
       <div ref={asperaContainerRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, transform: 'translateX(-100%)', willChange: 'transform' }}>
-        <AspireSequence ref={sequenceRefAspera} scrollContainerRef={sectionRef} onProgress={(frame) => handleProgress(frame, 'aspera')} onLoadComplete={() => setAsperaLoaded(true)} />
+        <video 
+          ref={videoRefAspera}
+          src="/aspera%20exploaded.mp4" 
+          muted 
+          loop 
+          playsInline
+          onTimeUpdate={(e) => {
+            const time = e.target.currentTime;
+            if (activeProduct === 'aspera' && !isTransitioning) {
+              if (time >= 2 && time < 7) {
+                if (!isAsperaTextHidden) setIsAsperaTextHidden(true);
+              } else {
+                if (isAsperaTextHidden) setIsAsperaTextHidden(false);
+              }
+            }
+          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
 
       <div
