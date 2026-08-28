@@ -41,7 +41,6 @@ const Header = () => {
         <Link to="/projects" className={path === '/projects' ? 'active' : ''}>Projects</Link>
         <Link to="/products" className={path.startsWith('/products') ? 'active' : ''}>Products</Link>
         <Link to="/gallery" className={path === '/gallery' ? 'active' : ''}>Gallery</Link>
-        <Link to="/manufacturing" className={path === '/manufacturing' ? 'active' : ''}>Manufacturing</Link>
         <Link to="/contact" className={path === '/contact' ? 'active' : ''}>Contact</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           
