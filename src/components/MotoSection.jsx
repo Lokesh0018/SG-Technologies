@@ -4,32 +4,44 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FRAME_COUNT = 300;
-const FRAME_PREFIX = '/moto exp frames/ezgif-frame-';
-const FRAME_SUFFIX = '.jpg';
+const MOTO_FRAME_COUNT = 300;
+const MOTO_FRAME_PREFIX = '/moto exp frames/ezgif-frame-';
+const MOTO_FRAME_SUFFIX = '.jpg';
+
+const ASPERA_FRAME_COUNT = 300;
+const ASPERA_FRAME_PREFIX = '/aspire exp frames/ezgif-frame-';
+const ASPERA_FRAME_SUFFIX = '.jpg';
 
 const MotoSection = ({ onLoadComplete }) => {
   const motoSectionRef = useRef(null);
   const asperaSectionRef = useRef(null);
   const motoTextRef = useRef(null);
   const asperaTextRef = useRef(null);
-  const videoRefAspera = useRef(null);
+  
   const canvasMotoRef = useRef(null);
+  const canvasAsperaRef = useRef(null);
 
   const [motoLoaded, setMotoLoaded] = useState(false);
+  const [asperaLoaded, setAsperaLoaded] = useState(false);
+  
   const [isMotoTextHidden, setIsMotoTextHidden] = useState(false);
   const [isAsperaTextHidden, setIsAsperaTextHidden] = useState(false);
 
-  const playheadRef = useRef({ frame: 1 });
-  const imagesRef = useRef([]);
-  const ctxRef = useRef(null);
-  const animationRef = useRef(null);
+  const playheadMotoRef = useRef({ frame: 1 });
+  const imagesMotoRef = useRef([]);
+  const ctxMotoRef = useRef(null);
+  const animationMotoRef = useRef(null);
+
+  const playheadAsperaRef = useRef({ frame: 1 });
+  const imagesAsperaRef = useRef([]);
+  const ctxAsperaRef = useRef(null);
+  const animationAsperaRef = useRef(null);
 
   useEffect(() => {
-    if (motoLoaded && onLoadComplete) {
+    if (motoLoaded && asperaLoaded && onLoadComplete) {
       onLoadComplete();
     }
-  }, [motoLoaded, onLoadComplete]);
+  }, [motoLoaded, asperaLoaded, onLoadComplete]);
 
   // Moto Canvas Sequence Init
   useEffect(() => {
@@ -37,11 +49,11 @@ const MotoSection = ({ onLoadComplete }) => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    ctxRef.current = ctx;
+    ctxMotoRef.current = ctx;
 
     const renderFrame = (index) => {
-      if (!ctxRef.current || !imagesRef.current[index - 1]) return;
-      const img = imagesRef.current[index - 1];
+      if (!ctxMotoRef.current || !imagesMotoRef.current[index - 1]) return;
+      const img = imagesMotoRef.current[index - 1];
       if (!img.complete || img.naturalWidth === 0) return;
 
       const cw = canvas.width;
@@ -54,15 +66,15 @@ const MotoSection = ({ onLoadComplete }) => {
       const sx = (cw - sw) / 2;
       const sy = (ch - sh) / 2;
 
-      ctxRef.current.clearRect(0, 0, cw, ch);
-      ctxRef.current.drawImage(img, sx, sy, sw, sh);
+      ctxMotoRef.current.clearRect(0, 0, cw, ch);
+      ctxMotoRef.current.drawImage(img, sx, sy, sw, sh);
     };
 
     const resizeCanvas = () => {
       if (canvasMotoRef.current) {
         canvasMotoRef.current.width = window.innerWidth;
         canvasMotoRef.current.height = window.innerHeight;
-        renderFrame(Math.round(playheadRef.current.frame));
+        renderFrame(Math.round(playheadMotoRef.current.frame));
       }
     };
 
@@ -78,27 +90,89 @@ const MotoSection = ({ onLoadComplete }) => {
       if (loadedCount === 30) setMotoLoaded(true);
     };
 
-    for (let i = 1; i <= FRAME_COUNT; i++) {
+    for (let i = 1; i <= MOTO_FRAME_COUNT; i++) {
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, '0');
-      img.src = `${FRAME_PREFIX}${paddedIndex}${FRAME_SUFFIX}`;
+      img.src = `${MOTO_FRAME_PREFIX}${paddedIndex}${MOTO_FRAME_SUFFIX}`;
       img.onload = onImageLoaded;
       images.push(img);
     }
-    imagesRef.current = images;
+    imagesMotoRef.current = images;
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      if (animationRef.current) animationRef.current.kill();
+      if (animationMotoRef.current) animationMotoRef.current.kill();
+    };
+  }, []);
+
+  // Aspera Canvas Sequence Init
+  useEffect(() => {
+    const canvas = canvasAsperaRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    ctxAsperaRef.current = ctx;
+
+    const renderFrame = (index) => {
+      if (!ctxAsperaRef.current || !imagesAsperaRef.current[index - 1]) return;
+      const img = imagesAsperaRef.current[index - 1];
+      if (!img.complete || img.naturalWidth === 0) return;
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.width;
+      const ih = img.height;
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale;
+      const sh = ih * scale;
+      const sx = (cw - sw) / 2;
+      const sy = (ch - sh) / 2;
+
+      ctxAsperaRef.current.clearRect(0, 0, cw, ch);
+      ctxAsperaRef.current.drawImage(img, sx, sy, sw, sh);
+    };
+
+    const resizeCanvas = () => {
+      if (canvasAsperaRef.current) {
+        canvasAsperaRef.current.width = window.innerWidth;
+        canvasAsperaRef.current.height = window.innerHeight;
+        renderFrame(Math.round(playheadAsperaRef.current.frame));
+      }
+    };
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let loadedCount = 0;
+    const images = [];
+
+    const onImageLoaded = () => {
+      loadedCount++;
+      if (loadedCount === 1) renderFrame(1);
+      if (loadedCount === 30) setAsperaLoaded(true);
+    };
+
+    for (let i = 1; i <= ASPERA_FRAME_COUNT; i++) {
+      const img = new Image();
+      const paddedIndex = i.toString().padStart(3, '0');
+      img.src = `${ASPERA_FRAME_PREFIX}${paddedIndex}${ASPERA_FRAME_SUFFIX}`;
+      img.onload = onImageLoaded;
+      images.push(img);
+    }
+    imagesAsperaRef.current = images;
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      if (animationAsperaRef.current) animationAsperaRef.current.kill();
     };
   }, []);
 
   // Moto ScrollTrigger (Scrubbing)
   useEffect(() => {
-    if (animationRef.current) animationRef.current.kill();
+    if (animationMotoRef.current) animationMotoRef.current.kill();
 
-    animationRef.current = gsap.to(playheadRef.current, {
-      frame: FRAME_COUNT,
+    animationMotoRef.current = gsap.to(playheadMotoRef.current, {
+      frame: MOTO_FRAME_COUNT,
       ease: "none",
       scrollTrigger: {
         trigger: motoSectionRef.current,
@@ -107,10 +181,10 @@ const MotoSection = ({ onLoadComplete }) => {
         scrub: 1, // Smooth scrubbing
       },
       onUpdate: () => {
-        const currentFrame = Math.round(playheadRef.current.frame);
+        const currentFrame = Math.round(playheadMotoRef.current.frame);
         const canvas = canvasMotoRef.current;
-        if (ctxRef.current && imagesRef.current[currentFrame - 1] && canvas) {
-          const img = imagesRef.current[currentFrame - 1];
+        if (ctxMotoRef.current && imagesMotoRef.current[currentFrame - 1] && canvas) {
+          const img = imagesMotoRef.current[currentFrame - 1];
           if (img.complete && img.naturalWidth > 0) {
             const cw = canvas.width;
             const ch = canvas.height;
@@ -121,8 +195,8 @@ const MotoSection = ({ onLoadComplete }) => {
             const sh = ih * scale;
             const sx = (cw - sw) / 2;
             const sy = (ch - sh) / 2;
-            ctxRef.current.clearRect(0, 0, cw, ch);
-            ctxRef.current.drawImage(img, sx, sy, sw, sh);
+            ctxMotoRef.current.clearRect(0, 0, cw, ch);
+            ctxMotoRef.current.drawImage(img, sx, sy, sw, sh);
           }
         }
 
@@ -136,30 +210,55 @@ const MotoSection = ({ onLoadComplete }) => {
     });
 
     return () => {
-      if (animationRef.current) animationRef.current.kill();
+      if (animationMotoRef.current) animationMotoRef.current.kill();
     };
   }, []);
 
-  // Aspera ScrollTrigger
+  // Aspera ScrollTrigger (Scrubbing)
   useEffect(() => {
-    const playAspera = () => {
-      if (videoRefAspera.current) videoRefAspera.current.play().catch(e => console.log('Autoplay prevented', e));
-    };
-    const pauseAspera = () => {
-      if (videoRefAspera.current) videoRefAspera.current.pause();
-    };
+    if (animationAsperaRef.current) animationAsperaRef.current.kill();
 
-    const stAspera = ScrollTrigger.create({
-      trigger: asperaSectionRef.current,
-      start: "top bottom",
-      end: "bottom top",
-      onEnter: playAspera,
-      onEnterBack: playAspera,
-      onLeave: pauseAspera,
-      onLeaveBack: pauseAspera,
+    animationAsperaRef.current = gsap.to(playheadAsperaRef.current, {
+      frame: ASPERA_FRAME_COUNT,
+      ease: "none",
+      scrollTrigger: {
+        trigger: asperaSectionRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1, // Smooth scrubbing
+      },
+      onUpdate: () => {
+        const currentFrame = Math.round(playheadAsperaRef.current.frame);
+        const canvas = canvasAsperaRef.current;
+        if (ctxAsperaRef.current && imagesAsperaRef.current[currentFrame - 1] && canvas) {
+          const img = imagesAsperaRef.current[currentFrame - 1];
+          if (img.complete && img.naturalWidth > 0) {
+            const cw = canvas.width;
+            const ch = canvas.height;
+            const iw = img.width;
+            const ih = img.height;
+            const scale = Math.max(cw / iw, ch / ih);
+            const sw = iw * scale;
+            const sh = ih * scale;
+            const sx = (cw - sw) / 2;
+            const sy = (ch - sh) / 2;
+            ctxAsperaRef.current.clearRect(0, 0, cw, ch);
+            ctxAsperaRef.current.drawImage(img, sx, sy, sw, sh);
+          }
+        }
+
+        // Text hiding logic (frames 60 to 210 correspond to 2s to 7s)
+        if (currentFrame >= 60 && currentFrame < 210) {
+          setIsAsperaTextHidden(true);
+        } else {
+          setIsAsperaTextHidden(false);
+        }
+      }
     });
 
-    return () => stAspera.kill();
+    return () => {
+      if (animationAsperaRef.current) animationAsperaRef.current.kill();
+    };
   }, []);
 
   // Handle video-synced text animation for Motorola
@@ -271,97 +370,84 @@ const MotoSection = ({ onLoadComplete }) => {
       <section
         ref={asperaSectionRef}
         style={{
-          height: '100vh',
+          height: '400vh',
           position: 'relative',
           backgroundColor: '#ffffff',
-          overflow: 'hidden'
         }}
       >
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
-          <video 
-            ref={videoRefAspera}
-            src="/aspera%20exploaded.mp4" 
-            muted 
-            loop 
-            playsInline
-            onTimeUpdate={(e) => {
-              const time = e.target.currentTime;
-              if (time >= 2 && time < 7) {
-                if (!isAsperaTextHidden) setIsAsperaTextHidden(true);
-              } else {
-                if (isAsperaTextHidden) setIsAsperaTextHidden(false);
-              }
-            }}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        <div style={{ position: 'sticky', top: 0, left: 0, width: '100%', height: '100vh', zIndex: 0, overflow: 'hidden' }}>
+          <canvas 
+            ref={canvasAsperaRef}
+            style={{ width: '100%', height: '100%', display: 'block', backgroundColor: '#000' }}
           />
-        </div>
 
-        <div
-          ref={asperaTextRef}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            right: '0',
-            transform: 'translate(0px, -50%)',
-            zIndex: 10,
-            width: '34%',
-            minWidth: '340px',
-            maxWidth: '520px',
-            padding: '46px',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            pointerEvents: 'none',
-            background: 'transparent',
-            textAlign: 'right'
-          }}
-        >
-          <div style={{
-            display: 'inline-block',
-            fontSize: '0.85rem',
-            fontWeight: '700',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            marginBottom: '1rem',
-            color: '#ff0000ff'
-          }}>
-            Next-Gen Communication
+          <div
+            ref={asperaTextRef}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '0',
+              transform: 'translate(0px, -50%)',
+              zIndex: 10,
+              width: '34%',
+              minWidth: '340px',
+              maxWidth: '520px',
+              padding: '46px',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              pointerEvents: 'none',
+              background: 'transparent',
+              textAlign: 'right'
+            }}
+          >
+            <div style={{
+              display: 'inline-block',
+              fontSize: '0.85rem',
+              fontWeight: '700',
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              marginBottom: '1rem',
+              color: '#ff0000ff'
+            }}>
+              Next-Gen Communication
+            </div>
+            <h1 style={{
+              fontSize: '4rem',
+              fontWeight: '800',
+              color: '#111827',
+              margin: 0,
+              letterSpacing: '-0.03em',
+              lineHeight: '1.05',
+            }}>
+              Aspera <br />
+              v9
+            </h1>
+            <p style={{
+              fontSize: '1.15rem',
+              color: '#4b5563',
+              marginTop: '1.5rem',
+              lineHeight: '1.6',
+              fontWeight: '500'
+            }}>
+              The ultimate blend of reliability and design. Crafted for professionals who demand excellence.
+            </p>
+
+            <a href="#explore" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              fontSize: '1.05rem',
+              fontWeight: '600',
+              color: '#1f2937',
+              textDecoration: 'none',
+              borderBottom: '2px solid #1f2937',
+              paddingBottom: '0.2rem',
+              marginTop: '2rem',
+              pointerEvents: 'auto',
+              transition: 'opacity 0.2s',
+              flexDirection: 'row-reverse',
+            }}>
+              Explore Product <span style={{ marginRight: '0.5rem', transform: 'rotate(180deg)' }}>→</span>
+            </a>
           </div>
-          <h1 style={{
-            fontSize: '4rem',
-            fontWeight: '800',
-            color: '#111827',
-            margin: 0,
-            letterSpacing: '-0.03em',
-            lineHeight: '1.05',
-          }}>
-            Aspera <br />
-            v9
-          </h1>
-          <p style={{
-            fontSize: '1.15rem',
-            color: '#4b5563',
-            marginTop: '1.5rem',
-            lineHeight: '1.6',
-            fontWeight: '500'
-          }}>
-            The ultimate blend of reliability and design. Crafted for professionals who demand excellence.
-          </p>
-
-          <a href="#explore" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            fontSize: '1.05rem',
-            fontWeight: '600',
-            color: '#1f2937',
-            textDecoration: 'none',
-            borderBottom: '2px solid #1f2937',
-            paddingBottom: '0.2rem',
-            marginTop: '2rem',
-            pointerEvents: 'auto',
-            transition: 'opacity 0.2s',
-            flexDirection: 'row-reverse',
-          }}>
-            Explore Product <span style={{ marginRight: '0.5rem', transform: 'rotate(180deg)' }}>→</span>
-          </a>
         </div>
       </section>
     </div>
