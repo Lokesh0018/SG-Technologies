@@ -1,146 +1,154 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ImageSequence from './ImageSequence';
+// Removed ImageSequence import
 
 const Hero = ({ onLoadComplete }) => {
   const contentRef = useRef(null);
   const navigate = useNavigate();
+  const [textVisible, setTextVisible] = useState(true);
+  const [animationClass, setAnimationClass] = useState('fadeUp');
 
-  const handleFrame = (frame) => {
-    if (!contentRef.current) return;
-    
-    // Hide text between 126 and 275
-    if (frame >= 126 && frame <= 275) {
-      if (contentRef.current.style.opacity !== '0') {
-        contentRef.current.style.opacity = '0';
+  const handleTimeUpdate = (e) => {
+    const t = e.target.currentTime;
+    if (t >= 2 && t < 9) {
+      if (textVisible) {
+        setTextVisible(false);
+        setAnimationClass('slideOutLeft');
       }
     } else {
-      if (contentRef.current.style.opacity !== '1') {
-        contentRef.current.style.opacity = '1';
+      if (!textVisible) {
+        setTextVisible(true);
+        setAnimationClass('slideInLeft');
       }
     }
   };
 
   return (
-    <section className="hero" style={{ pointerEvents: 'none', position: 'relative', overflow: 'hidden' }}>
-      {/* Background Image Sequence */}
+    <section className="hero" style={{ pointerEvents: 'none', position: 'relative', overflow: 'hidden', height: '100vh', fontFamily: "'Manrope', 'Inter', sans-serif" }}>
+      {/* Background Video (Untouched) */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
-        <ImageSequence onFrame={handleFrame} onLoadComplete={onLoadComplete} />
+        <video 
+          src="/bluprint%20animation.mp4" 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          onLoadedData={() => { if (onLoadComplete) onLoadComplete(); }}
+          onTimeUpdate={handleTimeUpdate}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
       
-      {/* Minimalist Hardware Layout */}
+      {/* Premium Typography Layout */}
       <div ref={contentRef} style={{ 
+          position: 'absolute',
+          top: '32%',
+          left: '6.5vw',
           zIndex: 10, 
           pointerEvents: 'none', 
-          width: '100%', 
-          height: '100%',
           display: 'flex', 
           flexDirection: 'column',
-          justifyContent: 'center', 
           alignItems: 'flex-start',
           boxSizing: 'border-box',
+          width: '100%',
+          maxWidth: '540px',
           opacity: 1,
           transition: 'opacity 0.4s ease-in-out'
       }}>
         
-        {/* Structural Left Border Container */}
+        {/* Content Container */}
         <div style={{
-          borderLeft: '1px solid rgba(17, 17, 17, 0.2)',
-          paddingLeft: '1.5rem', // Tighter padding next to the structural line
           display: 'flex',
           flexDirection: 'column',
-          gap: '3rem',
-          pointerEvents: 'auto',
-          maxWidth: '650px',
-          animation: 'fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) both'
+          gap: '2.5rem',
+          pointerEvents: textVisible ? 'auto' : 'none',
+          animation: `${animationClass} 1s cubic-bezier(0.16, 1, 0.3, 1) both`
         }}>
           
           {/* Headline Section */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <span style={{ 
-              fontSize: '0.75rem', 
+              fontSize: '12.5px', 
               fontWeight: 700, 
-              letterSpacing: '0.2em', 
+              letterSpacing: '0.18em', 
               textTransform: 'uppercase', 
-              color: '#ff0800ff', 
+              color: '#ff3300', 
             }}>
               THE NEW STANDARD
             </span>
             <h1 className="hero-headline" style={{ 
-              fontSize: 'clamp(3rem, 6vw, 5rem)', 
-              letterSpacing: '-0.04em', // Tight kerning
+              fontSize: 'clamp(4rem, 6vw, 5.5rem)', 
+              letterSpacing: '-0.045em',
               fontWeight: 800,
-              lineHeight: 1.05,
+              lineHeight: 0.92,
               color: '#111',
-              margin: 0
+              margin: 0,
+              textAlign: 'left'
             }}>
-              Communication,<br />Reimagined.
+              Communication.<br />Reimagined.
             </h1>
           </div>
 
           {/* Description */}
           <p className="hero-description" style={{ 
-            fontSize: '1.25rem', 
+            fontSize: '17.5px', 
             fontWeight: 400,
             lineHeight: 1.5,
             color: '#444',
-            margin: 0
+            margin: 0,
+            maxWidth: '480px'
           }}>
             Professional two-way communication engineered for clarity, reliability, and connection wherever work takes you.
           </p>
           
           {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', pointerEvents: 'auto' }}>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '38px', pointerEvents: 'auto' }}>
             <button 
               className="btn btn-primary" 
               onClick={() => navigate('/products')}
               style={{ 
-              padding: '1rem 2.5rem', 
-              fontSize: '0.85rem', 
+              padding: '1rem 2rem', 
+              fontSize: '12.5px', 
               fontWeight: 700,
-              letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              borderRadius: '0', // Sharp corners
               backgroundColor: '#111',
               color: '#fff',
               border: '1px solid #111',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
             }}>
-              Pre-order
+              Explore Products
             </button>
             <button 
               className="btn btn-secondary" 
-              onClick={() => navigate('/about')}
+              onClick={() => navigate('/solutions')}
               style={{ 
-              padding: '1rem 2.5rem', 
-              fontSize: '0.85rem', 
+              padding: '1rem 2rem', 
+              fontSize: '12.5px', 
               fontWeight: 700,
-              letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              borderRadius: '0', // Sharp corners
               backgroundColor: 'transparent',
               color: '#111',
               border: '1px solid #111',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
             }}>
-              Explore
+              View Solutions
             </button>
           </div>
         </div>
 
       </div>
       
-      {/* CSS Animations directly in the component for portability */}
+      {/* CSS Animations */}
       <style>{`
-        @keyframes fadeDown {
-          from { opacity: 0; transform: translateY(-30px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes slideOutLeft {
+          from { opacity: 1; transform: translateX(0); }
+          to { opacity: 0; transform: translateX(-50px); }
         }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-50px); }
+          to { opacity: 1; transform: translateX(0); }
         }
       `}</style>
     </section>

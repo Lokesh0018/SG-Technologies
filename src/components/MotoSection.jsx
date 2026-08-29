@@ -17,13 +17,13 @@ const MotoSection = ({ onLoadComplete }) => {
   const asperaSectionRef = useRef(null);
   const motoTextRef = useRef(null);
   const asperaTextRef = useRef(null);
-  
+
   const canvasMotoRef = useRef(null);
   const canvasAsperaRef = useRef(null);
 
   const [motoLoaded, setMotoLoaded] = useState(false);
   const [asperaLoaded, setAsperaLoaded] = useState(false);
-  
+
   const [isMotoTextHidden, setIsMotoTextHidden] = useState(false);
   const [isAsperaTextHidden, setIsAsperaTextHidden] = useState(false);
 
@@ -291,11 +291,11 @@ const MotoSection = ({ onLoadComplete }) => {
         }}
       >
         <div style={{ position: 'sticky', top: 0, left: 0, width: '100%', height: '100vh', zIndex: 0, overflow: 'hidden' }}>
-          <canvas 
+          <canvas
             ref={canvasMotoRef}
             style={{ width: '100%', height: '100%', display: 'block', backgroundColor: '#000' }}
           />
-          
+
           <div
             ref={motoTextRef}
             style={{
@@ -376,7 +376,7 @@ const MotoSection = ({ onLoadComplete }) => {
         }}
       >
         <div style={{ position: 'sticky', top: 0, left: 0, width: '100%', height: '100vh', zIndex: 0, overflow: 'hidden' }}>
-          <canvas 
+          <canvas
             ref={canvasAsperaRef}
             style={{ width: '100%', height: '100%', display: 'block', backgroundColor: '#000' }}
           />

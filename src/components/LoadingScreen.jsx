@@ -28,18 +28,36 @@ const LoadingScreen = ({ isFadingOut }) => {
       pointerEvents: isFadingOut ? 'none' : 'auto',
       transition: 'opacity 1s ease-in-out'
     }}>
-      <video
-        ref={videoRef}
-        src="/loading.mp4"
-        autoPlay
-        muted
-        playsInline
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover'
-        }}
-      />
+      <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <video
+          ref={videoRef}
+          src="/loading.mp4"
+          autoPlay
+          muted
+          playsInline
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
+        />
+        {/* Logo overlay on the Walkie Talkie screen */}
+        <img 
+          src="/sg.png" 
+          alt="SG Tech Logo" 
+          style={{
+            position: 'absolute',
+            top: '50%', 
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '10%', // Adjust width based on video size
+            zIndex: 10,
+            pointerEvents: 'none',
+            mixBlendMode: 'screen', // Optional: Helps blend the logo with the screen behind it
+            opacity: 0.8
+          }} 
+        />
+      </div>
     </div>,
     document.body
   );
