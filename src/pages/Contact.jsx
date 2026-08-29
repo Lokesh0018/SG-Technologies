@@ -10,7 +10,7 @@ const CONFIG = {
   STATE: 'Andhra Pradesh',
   PINCODE: '530001',
   PHONE: '+1 (234) 567-890',
-  EMAIL: 'info@sgtechnologies.com',
+  EMAIL: 'info@sgtechnologie.in',
 };
 
 const Contact = () => {
@@ -38,10 +38,26 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormStatus('loading');
-    setTimeout(() => {
-      setFormStatus('success');
-    }, 1500);
+    const formData = new FormData(e.target);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const company = formData.get('company');
+    const subject = formData.get('subject');
+    const messageText = formData.get('message');
+    
+    let message = `*SG TECHNOLOGIES - Contact Inquiry*\n\n`;
+    message += `*Name:* ${name}\n`;
+    message += `*Email:* ${email}\n`;
+    if (company) message += `*Company:* ${company}\n`;
+    message += `*Subject:* ${subject}\n\n`;
+    message += `*Message:*\n${messageText}\n`;
+    
+    const whatappNumber = '918367248639';
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatappNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
+    setFormStatus('success');
   };
 
   return (
@@ -101,6 +117,7 @@ const Contact = () => {
               <div className="reveal-up" style={{ flex: 1 }}>
                 <input 
                   required 
+                  name="name"
                   type="text" 
                   placeholder="Full Name" 
                   className="editorial-input"
@@ -109,6 +126,7 @@ const Contact = () => {
               <div className="reveal-up" style={{ flex: 1 }}>
                 <input 
                   required 
+                  name="email"
                   type="email" 
                   placeholder="Email Address" 
                   className="editorial-input"
@@ -119,6 +137,7 @@ const Contact = () => {
             <div style={{ display: 'flex', gap: '2rem' }}>
               <div className="reveal-up" style={{ flex: 1 }}>
                 <input 
+                  name="company"
                   type="text" 
                   placeholder="Company (Optional)" 
                   className="editorial-input"
@@ -127,6 +146,7 @@ const Contact = () => {
               <div className="reveal-up" style={{ flex: 1 }}>
                 <input 
                   required 
+                  name="subject"
                   type="text" 
                   placeholder="Subject" 
                   className="editorial-input"
@@ -137,6 +157,7 @@ const Contact = () => {
             <div className="reveal-up">
               <textarea 
                 required 
+                name="message"
                 placeholder="Your Message" 
                 rows="4" 
                 className="editorial-input"

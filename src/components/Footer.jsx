@@ -25,7 +25,7 @@ const Footer = () => {
           <div className="footer-brand">
             <div className="footer-logo">
               <img src="/sg.png" alt="SG Tech Logo" style={{ height: '26px', width: 'auto', filter: 'invert(16%) sepia(85%) saturate(7456%) hue-rotate(349deg) brightness(101%) contrast(92%)' }} /> 
-              SG TECH <span className="red-dot"></span>
+              SG TECHNOLOGIES <span className="red-dot"></span>
             </div>
             <p className="footer-desc">
               Professional communication engineered for <br/>
