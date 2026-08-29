@@ -111,15 +111,7 @@ const ProductDetails = () => {
           {product.name}
         </h1>
         
-        <div className="pd-reveal" style={{ 
-          fontFamily: '"Courier New", Courier, monospace', 
-          fontSize: '1.5rem', 
-          fontWeight: '600',
-          marginBottom: '3rem',
-          color: '#111'
-        }}>
-          ₹{product.price.toLocaleString()}
-        </div>
+        {/* Price removed */}
 
         <p className="editorial-paragraph pd-reveal" style={{ marginBottom: '4rem', maxWidth: '90%' }}>
           {product.description}
@@ -147,9 +139,12 @@ const ProductDetails = () => {
         </div>
 
         <div className="pd-reveal" style={{ marginTop: 'auto', paddingTop: '2rem' }}>
-          <button 
-            onClick={() => addToCart(product)}
+          <Link 
+            to="/contact"
             style={{
+              display: 'block',
+              textAlign: 'center',
+              textDecoration: 'none',
               width: '100%',
               backgroundColor: '#111',
               color: '#fff',
@@ -159,13 +154,14 @@ const ProductDetails = () => {
               fontSize: '1rem',
               fontWeight: '700',
               cursor: 'pointer',
-              transition: 'background-color 0.2s ease'
+              transition: 'background-color 0.2s ease',
+              boxSizing: 'border-box'
             }}
             onMouseOver={(e) => e.target.style.backgroundColor = '#D2232A'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#111'}
           >
-            ADD TO CART — ₹{product.price.toLocaleString()}
-          </button>
+            ENQUIRE NOW
+          </Link>
         </div>
 
       </div>

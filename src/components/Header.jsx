@@ -73,7 +73,7 @@ const Header = () => {
             </Link>
           </div>
           
-          <Link to="/cart" style={{ 
+          <Link to="/contact" style={{ 
             background: '#111', 
             color: '#fff', 
             width: '120px',
@@ -86,7 +86,7 @@ const Header = () => {
             textDecoration: 'none',
             transition: 'background-color 0.2s',
             borderBottom: 'none' 
-          }}>Buy Now</Link>
+          }}>Enquire</Link>
         </div>
       </nav>
     </header>

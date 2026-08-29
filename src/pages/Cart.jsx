@@ -84,9 +84,7 @@ const Cart = () => {
                 <h3 style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.5rem', fontWeight: '700', margin: '0 0 1rem 0' }}>
                   {item.name}
                 </h3>
-                <div style={{ fontFamily: '"Courier New", Courier, monospace', fontSize: '1.2rem', fontWeight: '600' }}>
-                  ₹{item.price.toLocaleString()}
-                </div>
+                {/* Price removed */}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', padding: '1rem 0' }}>
@@ -120,22 +118,11 @@ const Cart = () => {
           borderRadius: '12px',
           border: '1px solid #e0e0e0'
         }}>
-          <h2 style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.8rem', fontWeight: '700', margin: '0 0 2rem 0' }}>ORDER SUMMARY</h2>
+          <h2 style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.8rem', fontWeight: '700', margin: '0 0 2rem 0' }}>ENQUIRY SUMMARY</h2>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', fontFamily: '"Inter", sans-serif' }}>
-            <span style={{ color: '#666' }}>Subtotal</span>
-            <span style={{ fontWeight: '600' }}>₹{cartTotal.toLocaleString()}</span>
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', fontFamily: '"Inter", sans-serif' }}>
-            <span style={{ color: '#666' }}>Shipping</span>
-            <span style={{ color: '#888', fontStyle: 'italic', fontSize: '0.9rem' }}>Calculated at checkout</span>
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3rem', paddingTop: '1.5rem', borderTop: '2px solid #111', fontFamily: '"Inter", sans-serif' }}>
-            <span style={{ fontWeight: '700', fontSize: '1.2rem' }}>Total</span>
-            <span style={{ fontWeight: '700', fontSize: '1.5rem' }}>₹{cartTotal.toLocaleString()}</span>
-          </div>
+          <p style={{ color: '#666', fontFamily: '"Inter", sans-serif', marginBottom: '3rem', lineHeight: 1.5 }}>
+             Submit your enquiry to receive a detailed quote for the selected items and quantities.
+          </p>
 
           <button 
             onClick={() => navigate('/checkout')}
@@ -158,7 +145,7 @@ const Cart = () => {
             onMouseOver={(e) => e.target.style.backgroundColor = '#25D366'}
             onMouseOut={(e) => e.target.style.backgroundColor = '#111'}
           >
-            PROCEED TO CHECKOUT
+            PROCEED TO ENQUIRY
           </button>
         </div>
       </div>

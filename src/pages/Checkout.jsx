@@ -43,8 +43,8 @@ const Checkout = () => {
 
     const orderId = `SG-${Math.floor(Math.random() * 1000000)}`;
     
-    let message = `*SG TECHNOLOGIES - Order Invoice*\n`;
-    message += `Order ID: ${orderId}\n\n`;
+    let message = `*SG TECHNOLOGIES - Product Enquiry*\n`;
+    message += `Enquiry ID: ${orderId}\n\n`;
     
     message += `*Customer Info:*\n`;
     message += `Name: ${formData.name}\n`;
@@ -52,12 +52,10 @@ const Checkout = () => {
     message += `Phone: ${formData.phone}\n`;
     message += `Address: ${formData.address}, ${formData.city} - ${formData.pincode}\n\n`;
     
-    message += `*Products:*\n`;
+    message += `*Interested Products:*\n`;
     cartItems.forEach(item => {
-      message += `- ${item.name} x${item.quantity} (₹${item.price.toLocaleString()} each)\n`;
+      message += `- ${item.name} (x${item.quantity})\n`;
     });
-    
-    message += `\n*Total: ₹${cartTotal.toLocaleString()}*\n`;
     
     const whatappNumber = '918367248639';
     const encodedMessage = encodeURIComponent(message);
@@ -138,27 +136,21 @@ const Checkout = () => {
         </form>
       </div>
 
-      {/* Right Side: Order Summary */}
+      {/* Right Side: Enquiry Summary */}
       <div style={{ flex: 1, backgroundColor: '#fff', position: 'relative' }}>
         <div style={{ position: 'sticky', top: '150px', padding: '0 4rem 4rem 4rem' }}>
-          <h2 className="reveal-up" style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.5rem', fontWeight: '700', marginBottom: '2rem' }}>Order Summary</h2>
+          <h2 className="reveal-up" style={{ fontFamily: '"Syne", sans-serif', fontSize: '1.5rem', fontWeight: '700', marginBottom: '2rem' }}>Enquiry Summary</h2>
           
           <div className="reveal-up" style={{ borderTop: '1px solid #e0e0e0', paddingTop: '1.5rem', marginBottom: '2rem' }}>
             {cartItems.map(item => (
               <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontFamily: '"Inter", sans-serif' }}>
                 <span style={{ color: '#666' }}>{item.name} (x{item.quantity})</span>
-                <span style={{ fontWeight: '600' }}>₹{(item.price * item.quantity).toLocaleString()}</span>
               </div>
             ))}
           </div>
-          
-          <div className="reveal-up" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3rem', paddingTop: '1.5rem', borderTop: '2px solid #111', fontFamily: '"Inter", sans-serif' }}>
-            <span style={{ fontWeight: '700', fontSize: '1.2rem' }}>Total</span>
-            <span style={{ fontWeight: '700', fontSize: '1.5rem' }}>₹{cartTotal.toLocaleString()}</span>
-          </div>
 
           <p className="reveal-up" style={{ fontFamily: '"Courier New", Courier, monospace', fontSize: '0.8rem', color: '#888', textAlign: 'center', marginBottom: '1rem' }}>
-            Invoice prepared — continue in WhatsApp to send it.
+            Details prepared — continue in WhatsApp to send your enquiry.
           </p>
 
           <button 
@@ -185,7 +177,7 @@ const Checkout = () => {
             onMouseOut={(e) => e.target.style.backgroundColor = '#111'}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            SEND INVOICE ON WHATSAPP
+            SEND ENQUIRY ON WHATSAPP
           </button>
         </div>
       </div>

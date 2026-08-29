@@ -13,7 +13,7 @@ const productsData = [
     price: 14999,
     category: 'Communication Devices',
     description: 'Advanced industrial communication device with extreme durability.',
-    image: '/walkie-talkie/walkie talkie.png'
+    image: '/walkie-talkie/walkie-talkie.png'
   },
   {
     id: 'cc-camera',
@@ -225,29 +225,29 @@ const Products = () => {
                     </p>
                     
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontFamily: '"Courier New", Courier, monospace', fontWeight: 'bold', fontSize: '1rem', color: '#111' }}>
-                        ₹{product.price.toLocaleString()}
-                      </span>
-                      <button 
-                        onClick={() => handleAddToCart(product)}
+                      {/* Price removed */ }
+                      <Link 
+                        to="/contact"
                         style={{ 
                           padding: '0.6rem 1.2rem', 
                           backgroundColor: '#111', 
                           color: '#fff', 
-                          border: 'none', 
+                          border: 'none',
+                          textDecoration: 'none',
                           cursor: 'pointer',
                           fontFamily: '"Inter", sans-serif',
                           fontSize: '0.75rem',
                           fontWeight: 600,
                           letterSpacing: '0.05em',
                           textTransform: 'uppercase',
-                          transition: 'background-color 0.2s ease'
+                          transition: 'background-color 0.2s ease',
+                          display: 'inline-block'
                         }}
                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--sg-red, #D2232A)'}
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#111'}
                       >
-                        Add to Cart
-                      </button>
+                        Enquire
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -282,8 +282,8 @@ const Products = () => {
                   <p className="product-desc">{product.description}</p>
                   
                   <div className="product-footer">
-                    <span className="product-price">₹{product.price.toLocaleString()}</span>
-                    <button className="product-btn-minimal" onClick={() => handleAddToCart(product)}>ADD TO CART</button>
+                    {/* Price removed */}
+                    <Link to="/contact" className="product-btn-minimal" style={{ textDecoration: 'none', display: 'inline-block' }}>ENQUIRE</Link>
                   </div>
                 </div>
 

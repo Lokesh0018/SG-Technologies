@@ -11,7 +11,7 @@ const projects = [
     category: 'INDUSTRIAL COMMUNICATION',
     date: 'FIELD DEPLOYMENT / 2026',
     subtitle: 'Industrial-grade two-way communication device.',
-    image: '/walkie-talkie/walkie talkie.png',
+    image: '/walkie-talkie/walkie-talkie.png',
     desc: 'Designed for extreme environments with robust housing, encrypted frequencies, and extended battery life for field operations.',
     specs: ['Long Range', 'Encrypted', 'Ruggedized']
   },
