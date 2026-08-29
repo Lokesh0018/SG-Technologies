@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import gsap from 'gsap';
 import Product3DViewer from '../components/Product3DViewer';
-import { useCart } from '../context/CartContext';
 
 const productsDatabase = {
   'walkie-talkie-pro': {
@@ -51,7 +50,7 @@ const productsDatabase = {
 
 const ProductDetails = () => {
   const { slug } = useParams();
-  const { addToCart } = useCart();
+
   const containerRef = useRef(null);
   
   const product = productsDatabase[slug] || productsDatabase['walkie-talkie-pro'];

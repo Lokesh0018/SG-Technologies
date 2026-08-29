@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useCart } from '../context/CartContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +53,6 @@ const Products = () => {
     bgY: 50
   });
 
-  const { addToCart } = useCart();
 
   const handleMouseEnter = (image) => {
     if (window.matchMedia("(pointer: coarse)").matches) return;

@@ -10,14 +10,11 @@ import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import { CartProvider } from './context/CartContext';
+import Contact from './pages/Contact';
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
+    <BrowserRouter>
         <ScrollToTop />
         <div className="app-container" style={{ position: 'relative' }}>
           <div className="grain-overlay"></div>
@@ -31,14 +28,11 @@ function App() {
           <Route path="/products/:slug" element={<ProductDetails />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
         </Routes>
         
         <Footer />
       </div>
     </BrowserRouter>
-    </CartProvider>
   );
 }
 

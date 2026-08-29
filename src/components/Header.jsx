@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const location = useLocation();
   const path = location.pathname;
-  const { cartCount } = useCart();
 
   return (
     <header className="header" style={{
@@ -43,36 +41,7 @@ const Header = () => {
         <Link to="/gallery" className={path === '/gallery' ? 'active' : ''}>Gallery</Link>
         <Link to="/contact" className={path === '/contact' ? 'active' : ''}>Contact</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          
-          <div className="cart-container">
-            <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center', color: '#111', textDecoration: 'none', cursor: 'pointer' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-              </svg>
-              {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  background: '#ff3300',
-                  color: '#fff',
-                  fontSize: '0.7rem',
-                  fontWeight: 700,
-                  width: '18px',
-                  height: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '50%'
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-          </div>
-          
+
           <Link to="/contact" style={{ 
             background: '#111', 
             color: '#fff', 
