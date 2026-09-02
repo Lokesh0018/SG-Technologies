@@ -1,0 +1,167 @@
+.product-details-page {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.product-details-container {
+  display: flex;
+  min-height: calc(100vh - 80px);
+}
+
+.product-3d-viewer {
+  flex: 1;
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 80px);
+  background-color: var(--bg-darker);
+  border-right: 1px solid var(--border-light);
+}
+
+.viewer-controls {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  border: 1px solid var(--border-light);
+  z-index: 10;
+}
+
+.viewer-btn {
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.viewer-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.viewer-btn.active {
+  background-color: var(--sg-red);
+  color: white;
+}
+
+.product-info-panel {
+  width: 450px;
+  padding: 3rem;
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-back-to-products {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  transition: color var(--transition-fast);
+}
+
+.btn-back-to-products:hover {
+  color: var(--sg-red);
+}
+
+.pd-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.pd-category {
+  color: var(--sg-red);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+.pd-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.pd-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.pd-specs {
+  margin-bottom: 3rem;
+}
+
+.pd-specs h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.5rem;
+}
+
+.spec-list {
+  list-style: none;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.spec-label {
+  color: var(--text-muted);
+}
+
+.spec-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.add-to-cart-large {
+  background-color: var(--sg-red);
+  color: white;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: auto;
+  transition: background-color var(--transition-fast);
+}
+
+.add-to-cart-large:hover {
+  background-color: #b01b22;
+}
+
+@media (max-width: 1024px) {
+  .product-details-container {
+    flex-direction: column;
+  }
+  .product-3d-viewer {
+    position: relative;
+    top: 0;
+    height: 60vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .product-info-panel {
+    width: 100%;
+  }
+}
