@@ -33,7 +33,6 @@ const Hero = ({ onLoadComplete }) => {
           muted 
           loop 
           playsInline
-          onError={() => { if (onLoadComplete) onLoadComplete(); }}
           onLoadedData={() => { if (onLoadComplete) onLoadComplete(); }}
           onTimeUpdate={handleTimeUpdate}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}

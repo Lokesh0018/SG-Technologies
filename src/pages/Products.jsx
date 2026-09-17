@@ -98,6 +98,9 @@ const Products = () => {
     setLoupeState(prev => ({ ...prev, bgX: xPercent, bgY: yPercent }));
   };
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -221,8 +224,10 @@ const Products = () => {
                     
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       {/* Price removed */ }
-                      <Link 
-                        to="/contact"
+                      <a 
+                        href={`https://wa.me/918367248639?text=${encodeURIComponent(`I need to enquire about this product ${product.name}`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         style={{ 
                           padding: '0.6rem 1.2rem', 
                           backgroundColor: '#111', 
@@ -242,7 +247,7 @@ const Products = () => {
                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#111'}
                       >
                         Enquire
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -278,7 +283,7 @@ const Products = () => {
                   
                   <div className="product-footer">
                     {/* Price removed */}
-                    <Link to="/contact" className="product-btn-minimal" style={{ textDecoration: 'none', display: 'inline-block' }}>ENQUIRE</Link>
+                    <a href={`https://wa.me/918367248639?text=${encodeURIComponent(`I need to enquire about this product ${product.name}`)}`} target="_blank" rel="noopener noreferrer" className="product-btn-minimal" style={{ textDecoration: 'none', display: 'inline-block' }}>ENQUIRE</a>
                   </div>
                 </div>
 

@@ -138,8 +138,10 @@ const ProductDetails = () => {
         </div>
 
         <div className="pd-reveal" style={{ marginTop: 'auto', paddingTop: '2rem' }}>
-          <Link 
-            to="/contact"
+          <a 
+            href={`https://wa.me/918367248639?text=${encodeURIComponent(`I need to enquire about this product ${product.name}`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'block',
               textAlign: 'center',
@@ -160,7 +162,7 @@ const ProductDetails = () => {
             onMouseOut={(e) => e.target.style.backgroundColor = '#111'}
           >
             ENQUIRE NOW
-          </Link>
+          </a>
         </div>
 
       </div>

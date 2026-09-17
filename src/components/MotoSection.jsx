@@ -95,7 +95,6 @@ const MotoSection = ({ onLoadComplete }) => {
       const paddedIndex = i.toString().padStart(3, '0');
       img.src = `${MOTO_FRAME_PREFIX}${paddedIndex}${MOTO_FRAME_SUFFIX}`;
       img.onload = onImageLoaded;
-      img.onerror = onImageLoaded;
       images.push(img);
     }
     imagesMotoRef.current = images;
@@ -158,7 +157,6 @@ const MotoSection = ({ onLoadComplete }) => {
       const paddedIndex = i.toString().padStart(3, '0');
       img.src = `${ASPERA_FRAME_PREFIX}${paddedIndex}${ASPERA_FRAME_SUFFIX}`;
       img.onload = onImageLoaded;
-      img.onerror = onImageLoaded;
       images.push(img);
     }
     imagesAsperaRef.current = images;

@@ -42,7 +42,7 @@ const Header = () => {
         <Link to="/contact" className={path === '/contact' ? 'active' : ''}>Contact</Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
 
-          <Link to="/contact" style={{ 
+          <Link to="/products" style={{ 
             background: '#111', 
             color: '#fff', 
             width: '120px',
